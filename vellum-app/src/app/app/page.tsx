@@ -7,6 +7,7 @@ import { db } from '@/db';
 import { documents } from '@/db/schema';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
 import { NewDocButton } from './new-doc-button';
+import { SearchBar } from './search-bar';
 
 export default async function AppPage() {
   const { userId } = await auth();
@@ -16,7 +17,14 @@ export default async function AppPage() {
 
   const docs = user.orgId
     ? await db
-        .select({ id: documents.id, title: documents.title, updatedAt: documents.updatedAt })
+        .select({
+          id: documents.id,
+          title: documents.title,
+          tags: documents.tags,
+          published: documents.published,
+          claimCount: documents.claimCount,
+          updatedAt: documents.updatedAt,
+        })
         .from(documents)
         .where(eq(documents.orgId, user.orgId))
         .orderBy(desc(documents.updatedAt))
@@ -41,12 +49,16 @@ export default async function AppPage() {
       </header>
 
       <section className="mx-auto max-w-3xl px-6 py-8">
-        <div className="mb-6 flex items-baseline justify-between">
+        <div className="mb-4 flex items-baseline justify-between gap-4">
           <p className="font-mono text-sm text-ink-2">
             signed in as <span className="text-ink">{user.email}</span>
             {user.orgId ? ` · org ${user.orgId.slice(0, 8)}…` : ' · no active org'}
           </p>
           <NewDocButton />
+        </div>
+
+        <div className="mb-6">
+          <SearchBar />
         </div>
 
         {docs.length === 0 ? (
@@ -57,11 +69,24 @@ export default async function AppPage() {
               <li key={d.id}>
                 <Link
                   href={`/app/doc/${d.id}`}
-                  className="block px-4 py-3 hover:bg-canvas-2 font-mono text-sm"
+                  className="block px-4 py-3 hover:bg-canvas-2"
                 >
-                  <div className="text-ink">{d.title}</div>
-                  <div className="text-xs text-ink-3">
-                    updated {new Date(d.updatedAt).toLocaleString()}
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-serif text-base text-ink">{d.title}</span>
+                    {d.published && (
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                        published
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] text-ink-3">
+                    <span>updated {new Date(d.updatedAt).toLocaleDateString()}</span>
+                    {(d.claimCount ?? 0) > 0 && <span>· {d.claimCount} marks</span>}
+                    {(d.tags ?? []).map((t) => (
+                      <span key={t} className="border border-rule bg-canvas-2 px-1.5 text-ink-2">
+                        #{t}
+                      </span>
+                    ))}
                   </div>
                 </Link>
               </li>

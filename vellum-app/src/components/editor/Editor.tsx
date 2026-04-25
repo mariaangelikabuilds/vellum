@@ -19,6 +19,8 @@ interface DetectedClaim {
 
 interface EditorProps {
   documentId: string;
+  /** plaintext content to seed the editor on mount (from the persisted proseText column) */
+  initialContent?: string;
   onClaimsDetected?: () => void;
   /** fires on every character entry; used by the typewriter machine to depress keys */
   onKeystroke?: (char: string) => void;
@@ -60,6 +62,7 @@ function applyClaimMarks(editor: TiptapEditor, claims: DetectedClaim[]) {
 
 export function Editor({
   documentId,
+  initialContent,
   onClaimsDetected,
   onKeystroke,
   onParagraphsChange,
@@ -108,6 +111,20 @@ export function Editor({
       setDetecting(false);
     }
   }, 1200);
+
+  // seed initial content once when the editor is ready and there's something to seed
+  const [seeded, setSeeded] = useState(false);
+  useEffect(() => {
+    if (!editor || seeded) return;
+    if (initialContent && initialContent.trim()) {
+      const html = initialContent
+        .split(/\n\n+/)
+        .map((p) => `<p>${p.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`)
+        .join('');
+      editor.commands.setContent(html, { emitUpdate: false });
+    }
+    setSeeded(true);
+  }, [editor, initialContent, seeded]);
 
   useEffect(() => {
     if (!editor) return;

@@ -24,10 +24,10 @@ export default async function PublicViewer({
 
   // For v1, the slug IS the document UUID. v2 adds dedicated slugs.
   const [doc] = await db.select().from(documents).where(eq(documents.id, slug));
-  if (!doc) {
+  if (!doc || !doc.published) {
     return (
       <main className="mx-auto max-w-2xl px-6 py-24 font-serif text-lg text-ink-2">
-        <p>essay not found.</p>
+        <p>essay not found, or not yet published.</p>
       </main>
     );
   }
@@ -85,15 +85,38 @@ export default async function PublicViewer({
         </header>
 
         <section className="font-serif text-lg leading-[1.7] text-ink">
-          <p className="mb-6 italic text-ink-2">
-            (Public reader view scaffolded for v1 — the actual prose rendering will hydrate from
-            the saved Yjs state once persistence ships in v1.5.)
-          </p>
+          {doc.proseText ? (
+            doc.proseText.split(/\n\n+/).map((para, i) => (
+              <p key={i} className="mb-6">
+                {para}
+              </p>
+            ))
+          ) : (
+            <p className="mb-6 italic text-ink-3">
+              this essay has no prose yet.
+            </p>
+          )}
+
+          {(doc.tags ?? []).length > 0 && (
+            <div className="mt-10 flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
+              <span className="text-ink-3">tags:</span>
+              {(doc.tags ?? []).map((t) => (
+                <span
+                  key={t}
+                  className="border border-rule bg-canvas-2 px-2 py-0.5 text-ink-2"
+                >
+                  #{t}
+                </span>
+              ))}
+            </div>
+          )}
 
           {claims.length > 0 && (
-            <div className="border border-rule-strong p-5 font-mono text-xs">
-              <p className="mb-3 uppercase tracking-widest text-ink-3">marks</p>
-              <ul className="space-y-2">
+            <details className="mt-10 border border-rule-strong p-5 font-mono text-xs">
+              <summary className="cursor-pointer uppercase tracking-widest text-ink-3 hover:text-ink">
+                marks ({claims.length})
+              </summary>
+              <ul className="mt-4 space-y-2">
                 {claims.map((c) => (
                   <li key={c.id} className="border-l-2 border-rule pl-3">
                     <span className="text-ink-3">
@@ -103,7 +126,7 @@ export default async function PublicViewer({
                   </li>
                 ))}
               </ul>
-            </div>
+            </details>
           )}
         </section>
 

@@ -55,6 +55,13 @@ export const documents = pgTable(
       .notNull(),
     authorUserId: uuid('author_user_id').references(() => users.id, { onDelete: 'set null' }),
     title: text('title').notNull().default('Untitled'),
+    /** plaintext snapshot of the prose; persisted on debounced save so the public viewer
+        and search can read without hydrating Yjs */
+    proseText: text('prose_text').default(''),
+    /** user-defined tags for the document */
+    tags: text('tags').array().default([]),
+    /** is this document publishable / visible at /v/[id] without auth? */
+    published: boolean('published').default(false),
     yjsState: bytea('yjs_state'),
     claimCount: integer('claim_count').default(0),
     contradictionCount: integer('contradiction_count').default(0),

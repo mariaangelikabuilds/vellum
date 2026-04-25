@@ -1,15 +1,36 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Editor } from '@/components/editor/Editor';
 import { SidePane } from '@/components/editor/SidePane';
 import { TypewriterMachine } from '@/components/landing/TypewriterMachine';
+import { useDebounce } from '@/lib/hooks/use-debounce';
 
-export function DocumentSurface({ documentId }: { documentId: string }) {
+export function DocumentSurface({
+  documentId,
+  initialProseText,
+}: {
+  documentId: string;
+  initialProseText?: string;
+}) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [lastChar, setLastChar] = useState('');
   const [pressTick, setPressTick] = useState(0);
   const [paragraphs, setParagraphs] = useState<string[]>([]);
+
+  // debounced PATCH of proseText so the public viewer + search read fresh content
+  const debouncedSaveProse = useDebounce(async (proseText: string) => {
+    await fetch(`/api/documents/${documentId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ proseText }),
+    });
+  }, 1500);
+
+  useEffect(() => {
+    if (paragraphs.length === 0) return;
+    debouncedSaveProse(paragraphs.join('\n\n'));
+  }, [paragraphs, debouncedSaveProse]);
 
   return (
     <>
@@ -37,6 +58,7 @@ export function DocumentSurface({ documentId }: { documentId: string }) {
         <div className="flex flex-col overflow-y-auto">
           <Editor
             documentId={documentId}
+            initialContent={initialProseText}
             onClaimsDetected={() => setRefreshKey((k) => k + 1)}
             onKeystroke={(char) => {
               setLastChar(char);
