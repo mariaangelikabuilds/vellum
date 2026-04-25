@@ -20,6 +20,7 @@
     "@anthropic-ai/sdk": "^0.91.1",
     "@base-ui/react": "^1.4.1",
     "@clerk/nextjs": "^7.2.7",
+    "@lottiefiles/dotlottie-react": "^0.19.0",
     "@neondatabase/serverless": "^1.1.0",
     "@sentry/nextjs": "^10.50.0",
     "@tiptap/core": "^3.22.4",

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '@/db';
 import { documents } from '@/db/schema';
@@ -8,10 +8,18 @@ import { detectClaims } from '@/ai/agents/claim-detector';
 import { createClaimVertex } from '@/db/graph';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
 
-const Body = z.object({
-  paragraph: z.string().min(1),
-  documentId: z.string().uuid(),
-});
+// Accept either single paragraph (legacy) or array (new client).
+const Body = z.union([
+  z.object({
+    paragraph: z.string().min(1),
+    documentId: z.string().uuid(),
+  }),
+  z.object({
+    paragraphs: z.array(z.string()).min(1),
+    documentId: z.string().uuid(),
+    replace: z.boolean().optional(),
+  }),
+]);
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -34,19 +42,35 @@ export async function POST(req: Request) {
   }
 
   const orgId = user.orgId ?? doc.orgId;
-  const claims = await detectClaims(parsed.data.paragraph, orgId);
+  const paragraphs = 'paragraph' in parsed.data ? [parsed.data.paragraph] : parsed.data.paragraphs;
+  const replace = 'replace' in parsed.data ? parsed.data.replace : false;
 
-  for (const c of claims) {
-    await createClaimVertex({
-      id: crypto.randomUUID(),
-      documentId: doc.id,
-      text: c.text,
-      type: c.type,
-      confidence: c.confidence,
-      positionStart: c.position[0],
-      positionEnd: c.position[1],
-    });
+  // Replace mode: clear all existing claim vertices for this document first.
+  if (replace) {
+    await db.execute(sql`
+      SELECT * FROM cypher(${sql.raw(`'vellum_claims'`)}, $$
+        MATCH (n:Claim {documentId: $docId})
+        DETACH DELETE n
+      $$, ${JSON.stringify({ docId: doc.id })}) AS (n agtype);
+    `);
   }
 
-  return NextResponse.json({ claims });
+  const allClaims = [];
+  for (const para of paragraphs) {
+    const claims = await detectClaims(para, orgId);
+    for (const c of claims) {
+      await createClaimVertex({
+        id: crypto.randomUUID(),
+        documentId: doc.id,
+        text: c.text,
+        type: c.type,
+        confidence: c.confidence,
+        positionStart: c.position[0],
+        positionEnd: c.position[1],
+      });
+      allClaims.push(c);
+    }
+  }
+
+  return NextResponse.json({ claims: allClaims });
 }

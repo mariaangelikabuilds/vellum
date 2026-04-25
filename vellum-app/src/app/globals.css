@@ -56,12 +56,13 @@
   --color-ink-4: var(--ink-4);
   --color-rule: var(--rule);
   --color-rule-strong: var(--rule-strong);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif);
   --radius-sm: 0;
   --radius-md: 0;
   --radius-lg: 0;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-serif);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -105,22 +106,48 @@ body {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-/* Vellum editor marks */
+/* Vellum editor marks — editorial register, no AI tropes */
 .claim {
-  background: linear-gradient(transparent 60%, color-mix(in oklab, var(--ink) 12%, transparent) 60%);
   cursor: help;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.claim[data-claim-type="factual"] {
+  text-decoration-color: var(--ink-3);
+  text-decoration-style: solid;
+}
+.claim[data-claim-type="opinion"] {
+  text-decoration-color: var(--ink-3);
+  text-decoration-style: dotted;
+  font-style: italic;
+}
+.claim[data-claim-type="speculation"] {
+  text-decoration-color: var(--ink-3);
+  text-decoration-style: dashed;
+}
+.claim[data-claim-type="evidence"] {
+  text-decoration-color: var(--ink);
+  text-decoration-thickness: 2px;
+}
+.claim[data-claim-type="question"] {
+  text-decoration-color: var(--ink-3);
+  text-decoration-style: dashed;
+  font-style: italic;
 }
 .claim--contradicted {
-  background: linear-gradient(transparent 60%, #fde68a 60%);
-  border-bottom: 1px solid #d97706;
+  background: #fef3c7;
+  text-decoration-color: #b45309;
+  text-decoration-thickness: 2px;
 }
 .claim--verified {
-  background: linear-gradient(transparent 60%, #d1fae5 60%);
+  text-decoration-color: var(--ink);
+  text-decoration-thickness: 2px;
 }
 .evidence {
   text-decoration: underline;
   text-decoration-color: var(--ink-3);
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 .question {
   font-style: italic;

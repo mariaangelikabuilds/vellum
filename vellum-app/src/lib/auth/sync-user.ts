@@ -32,15 +32,14 @@ export async function syncCurrentUser() {
   }
 
   if (orgId) {
-    const orgName = clerkUser?.publicMetadata?.orgName as string | undefined;
-    const [org] = await db
-      .insert(orgs)
-      .values({ clerkOrgId: orgId, name: orgName ?? 'Untitled org' })
-      .onConflictDoUpdate({
-        target: orgs.clerkOrgId,
-        set: orgName ? { name: orgName } : {},
-      })
-      .returning();
+    const orgName = (clerkUser?.publicMetadata?.orgName as string | undefined) ?? 'Untitled org';
+
+    // Select-then-insert: avoids Drizzle's onConflictDoUpdate-with-empty-set
+    // error and lets us read back the row regardless of insert vs hit.
+    let [org] = await db.select().from(orgs).where(eq(orgs.clerkOrgId, orgId));
+    if (!org) {
+      [org] = await db.insert(orgs).values({ clerkOrgId: orgId, name: orgName }).returning();
+    }
 
     if (org && user.orgId !== org.id) {
       await db.update(users).set({ orgId: org.id }).where(eq(users.id, user.id));
