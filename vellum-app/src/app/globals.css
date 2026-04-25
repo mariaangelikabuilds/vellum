@@ -105,6 +105,34 @@ body {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
+/* Vellum editor marks */
+.claim {
+  background: linear-gradient(transparent 60%, color-mix(in oklab, var(--ink) 12%, transparent) 60%);
+  cursor: help;
+}
+.claim--contradicted {
+  background: linear-gradient(transparent 60%, #fde68a 60%);
+  border-bottom: 1px solid #d97706;
+}
+.claim--verified {
+  background: linear-gradient(transparent 60%, #d1fae5 60%);
+}
+.evidence {
+  text-decoration: underline;
+  text-decoration-color: var(--ink-3);
+  text-underline-offset: 3px;
+}
+.question {
+  font-style: italic;
+  color: var(--ink-2);
+}
+.prose-vellum p {
+  margin: 0 0 1.25rem;
+}
+.prose-vellum p:last-child {
+  margin-bottom: 0;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
