@@ -170,9 +170,9 @@ export function TypewriterScene() {
         {/* side pane */}
         <aside className="bg-canvas-2 px-4 py-5">
           <div className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
-            <span>claim graph</span>
+            <span>marks</span>
             <span>
-              {cards.length} claim{cards.length === 1 ? '' : 's'}
+              {cards.length} mark{cards.length === 1 ? '' : 's'}
             </span>
           </div>
 

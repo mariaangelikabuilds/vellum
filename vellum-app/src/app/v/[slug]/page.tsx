@@ -70,7 +70,7 @@ export default async function PublicViewer({
             <span>verified by vellum on {new Date(doc.updatedAt).toISOString().slice(0, 10)}</span>
             <span>·</span>
             <span>
-              {claims.length} claim{claims.length === 1 ? '' : 's'}
+              {claims.length} mark{claims.length === 1 ? '' : 's'}
             </span>
             {doc.contradictionCount && doc.contradictionCount > 0 ? (
               <>
@@ -92,7 +92,7 @@ export default async function PublicViewer({
 
           {claims.length > 0 && (
             <div className="border border-rule-strong p-5 font-mono text-xs">
-              <p className="mb-3 uppercase tracking-widest text-ink-3">claim graph</p>
+              <p className="mb-3 uppercase tracking-widest text-ink-3">marks</p>
               <ul className="space-y-2">
                 {claims.map((c) => (
                   <li key={c.id} className="border-l-2 border-rule pl-3">
@@ -113,9 +113,9 @@ export default async function PublicViewer({
             <Link href="/" className="text-ink hover:underline">
               vellum
             </Link>
-            . every claim above was extracted by an agent and{' '}
+            . every mark above was extracted by an agent and{' '}
             {claims.length > 0 ? 'preserved with the prose' : 'is being verified'}. readers can
-            challenge any claim — agent adjudication coming in v1.5.
+            challenge any mark — agent adjudication coming in v1.5.
           </p>
         </footer>
       </div>

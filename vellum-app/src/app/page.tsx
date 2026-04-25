@@ -50,8 +50,8 @@ export default async function Home() {
             <em className="not-italic text-ink-2">Vellum sees the structure of an argument.</em>
           </h1>
           <p className="max-w-2xl font-serif text-base leading-[1.55] text-ink-2 sm:text-lg lg:text-xl">
-            As you write, every sentence with a claim becomes a node in a typed graph. Every
-            citation becomes an edge. A background agent fleet checks each claim against your
+            As you write, Vellum marks every load-bearing sentence as a node in a typed graph.
+            Every citation becomes an edge. A background agent fleet checks each mark against your
             bibliography and the open web, flagging unsupported assertions, contradictions across
             paragraphs, and missing premises before you ship.
           </p>

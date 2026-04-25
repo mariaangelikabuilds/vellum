@@ -39,13 +39,13 @@ export function ClaimsTab({
   return (
     <div className="px-4 py-4">
       <header className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
-        <span>claim graph</span>
-        <span>{loading ? '…' : `${claims.length} claim${claims.length === 1 ? '' : 's'}`}</span>
+        <span>marks</span>
+        <span>{loading ? '…' : `${claims.length} mark${claims.length === 1 ? '' : 's'}`}</span>
       </header>
 
       {claims.length === 0 && !loading ? (
         <p className="font-serif text-sm text-ink-3">
-          start typing — claims appear as the detector runs.
+          start typing — marks appear as the detector runs.
         </p>
       ) : (
         <ul className="space-y-2 font-mono text-xs">
