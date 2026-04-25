@@ -88,11 +88,11 @@ export function ReconcileModal({
         <div className="px-6 py-5">
           <section className="mb-5 grid grid-cols-2 gap-px border border-rule bg-rule">
             <div className="bg-canvas-2 p-3">
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">a</p>
+              <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">a</p>
               <p className="font-serif text-sm leading-snug text-ink">{fromText}</p>
             </div>
             <div className="bg-canvas-2 p-3">
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">b</p>
+              <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">b</p>
               <p className="font-serif text-sm leading-snug text-ink">{toText}</p>
             </div>
           </section>
@@ -106,14 +106,14 @@ export function ReconcileModal({
           {result && (
             <div className="space-y-4">
               <section className="border border-rule-strong bg-canvas-2 p-4">
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                <p className="mb-2 font-mono text-xs uppercase tracking-widest text-ink-3">
                   proposed rewrite
                 </p>
                 <p className="font-serif text-base leading-relaxed text-ink">{result.rewrite}</p>
               </section>
 
               <section>
-                <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">
                   reasoning
                 </p>
                 <p className="font-serif text-sm italic text-ink-2">{result.reasoning}</p>
@@ -121,7 +121,7 @@ export function ReconcileModal({
 
               {result.preserves.length > 0 && (
                 <section>
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                  <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">
                     preserved
                   </p>
                   <ul className="space-y-1 font-mono text-xs text-ink">
@@ -134,7 +134,7 @@ export function ReconcileModal({
 
               {result.drops.length > 0 && (
                 <section>
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                  <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">
                     dropped
                   </p>
                   <ul className="space-y-1 font-mono text-xs text-ink-2">

@@ -89,7 +89,7 @@ export function CowriterBar({ documentId, paragraphs, editor }: Props) {
       {suggestion && (
         <div className="space-y-3">
           <div className="border border-rule bg-canvas p-4">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <p className="mb-2 font-mono text-xs uppercase tracking-widest text-ink-3">
               proposed continuation
             </p>
             <p className="font-serif text-base leading-relaxed text-ink-2">
@@ -98,7 +98,7 @@ export function CowriterBar({ documentId, paragraphs, editor }: Props) {
           </div>
 
           {suggestion.flagged.length > 0 && (
-            <ul className="space-y-1 font-mono text-[11px] text-amber-800">
+            <ul className="space-y-1 font-mono text-xs text-amber-800">
               {suggestion.flagged.map((f, i) => (
                 <li key={i}>
                   <span className="font-semibold">{f.kind.replace(/_/g, ' ')}:</span> &ldquo;{f.span}

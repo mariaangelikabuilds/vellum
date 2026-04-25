@@ -29,7 +29,7 @@ export function SidePane({ documentId, refreshKey, paragraphs }: Props) {
 
   return (
     <aside className="flex flex-col border-l border-rule bg-canvas-2">
-      <nav className="grid grid-cols-5 border-b border-rule font-mono text-[10px] uppercase tracking-widest">
+      <nav className="grid grid-cols-5 border-b border-rule font-mono text-xs uppercase tracking-widest">
         {tabs.map((t) => (
           <button
             key={t.id}

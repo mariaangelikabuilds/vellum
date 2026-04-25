@@ -74,12 +74,12 @@ export default async function AppPage() {
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="font-serif text-base text-ink">{d.title}</span>
                     {d.published && (
-                      <span className="font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                      <span className="font-mono text-xs uppercase tracking-widest text-ink-3">
                         published
                       </span>
                     )}
                   </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] text-ink-3">
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-ink-3">
                     <span>updated {new Date(d.updatedAt).toLocaleDateString()}</span>
                     {(d.claimCount ?? 0) > 0 && <span>· {d.claimCount} marks</span>}
                     {(d.tags ?? []).map((t) => (

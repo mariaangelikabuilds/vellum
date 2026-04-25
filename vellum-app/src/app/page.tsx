@@ -59,7 +59,7 @@ export default async function Home() {
 
         <section className="mb-20">
           <TypewriterScene />
-          <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-widest text-ink-3">
+          <p className="mt-3 text-center font-mono text-xs uppercase tracking-widest text-ink-3">
             live · vellum is doing this right now
           </p>
         </section>

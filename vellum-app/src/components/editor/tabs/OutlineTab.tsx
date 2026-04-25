@@ -62,7 +62,7 @@ export function OutlineTab({
 
   return (
     <div className="px-4 py-4">
-      <header className="mb-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
+      <header className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-3">
         reverse outline
       </header>
 
@@ -85,14 +85,14 @@ export function OutlineTab({
       ) : data ? (
         <div className="space-y-4">
           <section className="border border-rule-strong p-3">
-            <p className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <p className="mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">
               summary
             </p>
             <p className="font-serif text-sm leading-snug text-ink">{data.summary}</p>
           </section>
 
           <section>
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <p className="mb-2 font-mono text-xs uppercase tracking-widest text-ink-3">
               structure
             </p>
             <ul className="space-y-2 border-l-2 border-rule pl-3 font-serif text-sm leading-snug text-ink">
@@ -102,7 +102,7 @@ export function OutlineTab({
                     {KIND_GLYPH[b.kind]}
                   </span>
                   {b.claim}
-                  <span className="ml-1 font-mono text-[10px] text-ink-3">¶{b.paragraphIndex}</span>
+                  <span className="ml-1 font-mono text-xs text-ink-3">¶{b.paragraphIndex}</span>
                 </li>
               ))}
             </ul>
@@ -117,7 +117,7 @@ export function OutlineTab({
                 : 'border-l-amber-700'
             }`}
           >
-            <p className="font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <p className="font-mono text-xs uppercase tracking-widest text-ink-3">
               coherence · {data.coherence.rating}
             </p>
             <p className="mt-1 font-serif text-sm leading-snug text-ink">{data.coherence.note}</p>

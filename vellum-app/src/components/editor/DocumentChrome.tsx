@@ -103,8 +103,9 @@ export function DocumentChrome({
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Untitled"
-        className="min-w-0 flex-1 bg-transparent font-serif text-base text-ink placeholder:text-ink-3 focus:outline-none"
+        placeholder="Untitled — click to rename"
+        aria-label="document title"
+        className="min-w-0 flex-1 border-b border-transparent bg-transparent px-1 py-0.5 font-serif text-lg text-ink placeholder:italic placeholder:text-ink-3 hover:border-rule focus:border-rule-strong focus:outline-none"
       />
 
       <div className="flex flex-wrap items-center gap-1.5">
@@ -113,7 +114,7 @@ export function DocumentChrome({
             key={t}
             type="button"
             onClick={() => removeTag(t)}
-            className="border border-rule bg-canvas-2 px-2 py-0.5 font-mono text-[10px] text-ink-2 hover:border-rule-strong hover:text-ink"
+            className="border border-rule bg-canvas-2 px-2 py-0.5 font-mono text-xs text-ink-2 hover:border-rule-strong hover:text-ink"
             title="remove tag"
           >
             #{t} ×
@@ -130,11 +131,11 @@ export function DocumentChrome({
             }
           }}
           placeholder="+ tag"
-          className="w-20 border border-transparent bg-transparent px-1 font-mono text-[10px] text-ink placeholder:text-ink-3 focus:border-rule focus:outline-none"
+          className="w-20 border border-transparent bg-transparent px-1 font-mono text-xs text-ink placeholder:text-ink-3 focus:border-rule focus:outline-none"
         />
       </div>
 
-      <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest">
+      <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest">
         {saving && <span className="text-ink-3">saving…</span>}
         <button
           type="button"

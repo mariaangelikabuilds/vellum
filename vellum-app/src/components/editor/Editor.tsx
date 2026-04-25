@@ -172,7 +172,7 @@ export function Editor({
     <div className="relative">
       <EditorContent editor={editor} />
       {detecting && (
-        <span className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+        <span className="absolute right-4 top-4 font-mono text-xs uppercase tracking-widest text-ink-3">
           detecting…
         </span>
       )}

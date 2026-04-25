@@ -54,7 +54,7 @@ export default async function PublicViewer({
           <Link href="/" className="font-mono text-sm tracking-wide text-ink hover:text-ink-2">
             vellum
           </Link>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-ink-3">
+          <span className="font-mono text-xs uppercase tracking-widest text-ink-3">
             verified essay
           </span>
         </div>
@@ -99,7 +99,7 @@ export default async function PublicViewer({
           )}
 
           {(doc.tags ?? []).length > 0 && (
-            <div className="mt-10 flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
+            <div className="mt-10 flex flex-wrap items-center gap-1.5 font-mono text-xs">
               <span className="text-ink-3">tags:</span>
               {(doc.tags ?? []).map((t) => (
                 <span
@@ -132,7 +132,7 @@ export default async function PublicViewer({
         </section>
 
         <section className="mt-16 border-t border-rule pt-8">
-          <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-3">
             subscribe to {authorEmail || 'this writer'}
           </p>
           <p className="mb-4 max-w-md font-serif text-sm text-ink-2">
@@ -141,7 +141,7 @@ export default async function PublicViewer({
           <SubscribeForm documentId={doc.id} />
         </section>
 
-        <footer className="mt-16 border-t border-rule pt-8 font-mono text-[11px] text-ink-3">
+        <footer className="mt-16 border-t border-rule pt-8 font-mono text-xs text-ink-3">
           <p>
             this essay was written in{' '}
             <Link href="/" className="text-ink hover:underline">

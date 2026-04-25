@@ -85,7 +85,7 @@ export function MapTab({ documentId, refreshKey, paragraphs = [] }: Props) {
 
   return (
     <div className="px-4 py-4">
-      <header className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
+      <header className="mb-3 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
         <span>argument map</span>
         <span>{loading ? '…' : `${marks.length} · ${edges.length} edges`}</span>
       </header>
@@ -109,7 +109,7 @@ export function MapTab({ documentId, refreshKey, paragraphs = [] }: Props) {
         <div className="space-y-4">
           {TYPE_ORDER.filter((t) => (grouped[t] ?? []).length > 0).map((type) => (
             <section key={type}>
-              <h4 className="mb-2 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+              <h4 className="mb-2 font-mono text-xs uppercase tracking-widest text-ink-3">
                 {type} · {grouped[type]?.length ?? 0}
               </h4>
               <ul className="space-y-1.5 border-l-2 border-rule pl-3">
@@ -120,7 +120,7 @@ export function MapTab({ documentId, refreshKey, paragraphs = [] }: Props) {
                     <li key={m.id} className="font-serif text-sm leading-snug text-ink">
                       {m.text}
                       {(incoming.length > 0 || outgoing.length > 0) && (
-                        <div className="mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-ink-3">
+                        <div className="mt-1 flex flex-wrap items-center gap-1.5 font-mono text-xs text-ink-3">
                           {incoming.map((e, i) => (
                             <span
                               key={`i-${i}`}

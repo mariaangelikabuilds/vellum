@@ -72,7 +72,7 @@ export function SearchBar() {
                         {r.snippet}
                       </div>
                     )}
-                    <div className="mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-ink-3">
+                    <div className="mt-1 flex flex-wrap items-center gap-1.5 font-mono text-xs text-ink-3">
                       {r.tags.map((t) => (
                         <span key={t} className="border border-rule bg-canvas-2 px-1.5">#{t}</span>
                       ))}

@@ -54,7 +54,7 @@ export function SourcesTab({ documentId }: { documentId: string }) {
 
   return (
     <div className="px-4 py-4">
-      <header className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
+      <header className="mb-3 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
         <span>bibliography</span>
         <span>{sources.length} source{sources.length === 1 ? '' : 's'}</span>
       </header>
@@ -101,7 +101,7 @@ export function SourcesTab({ documentId }: { documentId: string }) {
                   href={s.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-1 block truncate text-[10px] text-ink-3 hover:text-ink"
+                  className="mt-1 block truncate text-xs text-ink-3 hover:text-ink"
                 >
                   {s.url}
                 </a>

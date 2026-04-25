@@ -162,7 +162,7 @@ export function TypewriterDemo() {
     <div className="grid grid-cols-1 gap-px border border-rule-strong bg-rule lg:grid-cols-[1fr_320px]">
       {/* editor column */}
       <div className="relative bg-canvas">
-        <div className="border-b border-rule px-5 py-2.5 font-mono text-[11px] uppercase tracking-widest text-ink-3">
+        <div className="border-b border-rule px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-ink-3">
           essay · vellum
         </div>
 
@@ -200,7 +200,7 @@ export function TypewriterDemo() {
 
       {/* side-pane column */}
       <aside className="bg-canvas-2 px-4 py-5">
-        <div className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
+        <div className="mb-3 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
           <span>claim graph</span>
           <span>
             {cardsToRender.length} claim{cardsToRender.length === 1 ? '' : 's'}
@@ -217,7 +217,7 @@ export function TypewriterDemo() {
                 className="border border-rule bg-canvas px-3 py-2"
                 style={{ animation: 'vellum-card-in 280ms ease-out both' }}
               >
-                <div className="font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                <div className="font-mono text-xs uppercase tracking-widest text-ink-3">
                   {card.type} · {card.confidence.toFixed(2)}
                 </div>
                 <div className="mt-1 font-serif text-sm leading-snug text-ink">{card.label}</div>

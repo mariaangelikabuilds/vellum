@@ -113,7 +113,7 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
     <BubbleMenu editor={editor} options={{ placement: 'top' }}>
       <div className="flex flex-col bg-canvas border border-rule-strong shadow-sm">
         {mode === 'idle' && (
-          <div className="flex font-mono text-[11px] uppercase tracking-widest">
+          <div className="flex font-mono text-xs uppercase tracking-widest">
             <button
               type="button"
               onClick={fetchSynonyms}
@@ -132,12 +132,12 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
         )}
 
         {mode === 'loading' && (
-          <p className="px-3 py-2 font-mono text-[11px] text-ink-3">working…</p>
+          <p className="px-3 py-2 font-mono text-xs text-ink-3">working…</p>
         )}
 
         {mode === 'synonyms' && (
           <div className="max-w-xs px-3 py-2">
-            <div className="mb-2 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <div className="mb-2 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
               <span>alternatives</span>
               <button type="button" onClick={reset} className="hover:text-ink">
                 close
@@ -152,7 +152,7 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
                     className="block w-full text-left hover:bg-canvas-2"
                   >
                     <span className="font-serif text-sm text-ink">{s.word}</span>
-                    <span className="ml-2 font-mono text-[10px] text-ink-3">
+                    <span className="ml-2 font-mono text-xs text-ink-3">
                       {s.register ? `${s.register} · ` : ''}
                       {s.connotation}
                     </span>
@@ -165,7 +165,7 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
 
         {mode === 'explain' && explanation && (
           <div className="max-w-sm px-3 py-2">
-            <div className="mb-2 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <div className="mb-2 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
               <span>plain reading</span>
               <button type="button" onClick={reset} className="hover:text-ink">
                 close
@@ -176,7 +176,7 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
             </p>
             {explanation.unpacks.length > 0 && (
               <>
-                <p className="mt-2 mb-1 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                <p className="mt-2 mb-1 font-mono text-xs uppercase tracking-widest text-ink-3">
                   unpacked
                 </p>
                 <ul className="space-y-0.5 font-serif text-xs leading-snug text-ink-2">
@@ -189,7 +189,7 @@ export function SelectionMenu({ editor, paragraphs }: Props) {
           </div>
         )}
 
-        {error && <p className="px-3 py-2 font-mono text-[11px] text-red-600">{error}</p>}
+        {error && <p className="px-3 py-2 font-mono text-xs text-red-600">{error}</p>}
       </div>
     </BubbleMenu>
   );

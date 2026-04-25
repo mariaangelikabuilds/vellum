@@ -38,7 +38,7 @@ export function ClaimsTab({
 
   return (
     <div className="px-4 py-4">
-      <header className="mb-3 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-widest text-ink-3">
+      <header className="mb-3 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest text-ink-3">
         <span>marks</span>
         <span>{loading ? '…' : `${claims.length} mark${claims.length === 1 ? '' : 's'}`}</span>
       </header>
