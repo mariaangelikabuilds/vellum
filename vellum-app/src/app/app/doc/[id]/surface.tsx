@@ -7,6 +7,7 @@ import { SidePane } from '@/components/editor/SidePane';
 import { TypewriterMachine } from '@/components/landing/TypewriterMachine';
 import { CowriterBar } from '@/components/editor/CowriterBar';
 import { SelectionMenu } from '@/components/editor/SelectionMenu';
+import { VoiceCheckButton } from '@/components/editor/VoiceCheckButton';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 
 export function DocumentSurface({
@@ -72,6 +73,9 @@ export function DocumentSurface({
             onEditorReady={setEditorInstance}
           />
           <SelectionMenu editor={editorInstance} paragraphs={paragraphs} />
+          <div className="flex items-center justify-end gap-2 border-t border-rule bg-canvas-2 px-7 py-2">
+            <VoiceCheckButton paragraphs={paragraphs} />
+          </div>
           <CowriterBar
             documentId={documentId}
             paragraphs={paragraphs}

@@ -56,12 +56,12 @@
   --color-ink-4: var(--ink-4);
   --color-rule: var(--rule);
   --color-rule-strong: var(--rule-strong);
-  /* both sans and mono aliased to serif. Geist Sans removed entirely;
-     Geist Mono still imported as a fallback for code blocks if we add them
-     later, but the chrome reads as small-caps serif via the existing
-     `text-[10/11]px uppercase tracking-widest` treatment everywhere. */
-  --font-sans: var(--font-serif);
-  --font-mono: var(--font-serif);
+  /* Two-font system: Newsreader serif for body prose + Libre Franklin
+     for chrome (labels, tabs, nav, footer, metadata). Anywhere font-sans
+     or font-mono is referenced in className, you get Libre Franklin —
+     editorial sans-grotesque, NYT-like. font-serif → Newsreader. */
+  --font-sans: var(--font-chrome);
+  --font-mono: var(--font-chrome);
   --font-serif: var(--font-serif);
   --radius-sm: 0;
   --radius-md: 0;

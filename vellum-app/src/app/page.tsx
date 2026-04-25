@@ -82,27 +82,27 @@ export default async function Home() {
           </h2>
           <ul className="space-y-4 font-serif text-lg leading-[1.55] text-ink">
             <li>
-              <span className="font-mono text-ink-2">Yjs CRDT + custom Tiptap/ProseMirror schema</span>
+              <span className="font-serif italic text-ink">Yjs CRDT + custom Tiptap/ProseMirror schema</span>
               {' '}— prose document and claim graph stay in sync via a deterministic projection
               function. Mergeable both directions.
             </li>
             <li>
-              <span className="font-mono text-ink-2">Apache AGE on Postgres</span>
+              <span className="font-serif italic text-ink">Apache AGE on Postgres</span>
               {' '}— graph traversals, relational queries, and pgvector retrieval in one database.
               Single transactional consistency boundary.
             </li>
             <li>
-              <span className="font-mono text-ink-2">Two-tier model routing</span>
+              <span className="font-serif italic text-ink">Two-tier model routing</span>
               {' '}— Haiku for sub-200ms claim-detection (high frequency), Sonnet for high-stakes
               verification with tool use (low frequency). Cost-disciplined.
             </li>
             <li>
-              <span className="font-mono text-ink-2">Eval-gated deploys</span>
+              <span className="font-serif italic text-ink">Eval-gated deploys</span>
               {' '}— Braintrust runs nightly regression tests on claim-detection and
               contradiction-detection. CI blocks deploys that drop &gt;0.05 below baseline.
             </li>
             <li>
-              <span className="font-mono text-ink-2">Background verification via Trigger.dev</span>
+              <span className="font-serif italic text-ink">Background verification via Trigger.dev</span>
               {' '}— verification doesn&apos;t block the request path; UI streams updates as agents
               finish.
             </li>

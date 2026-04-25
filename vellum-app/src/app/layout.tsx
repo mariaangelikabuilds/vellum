@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Newsreader } from "next/font/google";
+import { Geist_Mono, Newsreader, Libre_Franklin } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
-// Geist Sans dropped on purpose — sans-default reads as generic AI/SaaS chrome.
-// Vellum uses serif (Newsreader) for prose surfaces and Geist Mono for chrome.
+// Two-font system, both free Google Fonts:
+//   Newsreader (serif)      → body prose, hero headlines, mark cards, paragraphs
+//   Libre Franklin (sans)   → chrome — labels, tabs, nav, footer, metadata
+// This is the NYT pattern: serif body, sans-grotesque section-header chrome.
+// Geist Mono is kept only as a fallback for any future code-block context.
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -16,6 +19,12 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
+});
+
+const libreFranklin = Libre_Franklin({
+  variable: "--font-chrome",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +41,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${geistMono.variable} ${newsreader.variable} h-full antialiased`}
+        className={`${geistMono.variable} ${newsreader.variable} ${libreFranklin.variable} h-full antialiased`}
       >
         <body className="min-h-full flex flex-col">{children}</body>
       </html>
