@@ -72,30 +72,38 @@ export function DocumentSurface({
         </div>
       </section>
 
-      {/* desktop */}
+      {/* desktop — full-viewport grid; scroll lives inside the editor canvas only */}
       <div className="hidden flex-1 grid-cols-[1fr_360px] overflow-hidden lg:grid">
-        <div className="flex flex-col overflow-y-auto">
-          <Editor
-            documentId={documentId}
-            initialContent={initialProseText}
-            onClaimsDetected={() => setRefreshKey((k) => k + 1)}
-            onKeystroke={(char) => {
-              setLastChar(char);
-              setPressTick((t) => t + 1);
-            }}
-            onParagraphsChange={setParagraphs}
-            onEditorReady={setEditorInstance}
-          />
-          <SelectionMenu editor={editorInstance} paragraphs={paragraphs} />
-          <CowriterBar
-            documentId={documentId}
-            paragraphs={paragraphs}
-            editor={editorInstance}
-          />
-          <div className="mt-auto border-t border-rule bg-canvas-2 px-5 py-5">
-            <TypewriterMachine lastChar={lastChar} pressTick={pressTick} />
+        {/* editor column: scrollable canvas on top, fixed cowriter + typewriter on bottom */}
+        <div className="flex h-full flex-col overflow-hidden">
+          {/* the writing canvas — only this scrolls */}
+          <div className="flex-1 overflow-y-auto">
+            <Editor
+              documentId={documentId}
+              initialContent={initialProseText}
+              onClaimsDetected={() => setRefreshKey((k) => k + 1)}
+              onKeystroke={(char) => {
+                setLastChar(char);
+                setPressTick((t) => t + 1);
+              }}
+              onParagraphsChange={setParagraphs}
+              onEditorReady={setEditorInstance}
+            />
+            <SelectionMenu editor={editorInstance} paragraphs={paragraphs} />
+          </div>
+          {/* pinned bottom dock — cowriter + typewriter, always visible */}
+          <div className="shrink-0">
+            <CowriterBar
+              documentId={documentId}
+              paragraphs={paragraphs}
+              editor={editorInstance}
+            />
+            <div className="border-t border-rule bg-canvas-2 px-5 py-3">
+              <TypewriterMachine lastChar={lastChar} pressTick={pressTick} />
+            </div>
           </div>
         </div>
+        {/* side-pane column: own internal scroll already lives inside SidePane */}
         <SidePane documentId={documentId} refreshKey={refreshKey} paragraphs={paragraphs} />
       </div>
     </>
