@@ -26,6 +26,8 @@ interface EditorProps {
   onKeystroke?: (char: string) => void;
   /** fires whenever paragraph content changes; used by SidePane tabs that operate on doc text */
   onParagraphsChange?: (paragraphs: string[]) => void;
+  /** called once the Tiptap editor instance is ready; lets parents call commands */
+  onEditorReady?: (editor: TiptapEditor) => void;
 }
 
 /**
@@ -66,6 +68,7 @@ export function Editor({
   onClaimsDetected,
   onKeystroke,
   onParagraphsChange,
+  onEditorReady,
 }: EditorProps) {
   const ydoc = useMemo(() => new Y.Doc(), []);
   const [detecting, setDetecting] = useState(false);
@@ -111,6 +114,11 @@ export function Editor({
       setDetecting(false);
     }
   }, 1200);
+
+  // notify parent the editor is ready so it can call commands (e.g., cowriter inserts)
+  useEffect(() => {
+    if (editor && onEditorReady) onEditorReady(editor);
+  }, [editor, onEditorReady]);
 
   // seed initial content once when the editor is ready and there's something to seed
   const [seeded, setSeeded] = useState(false);

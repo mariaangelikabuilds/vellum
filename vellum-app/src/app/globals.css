@@ -56,7 +56,9 @@
   --color-ink-4: var(--ink-4);
   --color-rule: var(--rule);
   --color-rule-strong: var(--rule-strong);
-  --font-sans: var(--font-geist-sans);
+  /* sans intentionally aliased to mono — Geist Sans dropped because it reads as
+     generic AI/SaaS chrome. anywhere font-sans is referenced, you get mono. */
+  --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-serif);
   --radius-sm: 0;

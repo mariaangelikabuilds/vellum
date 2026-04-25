@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { Editor as TiptapEditor } from '@tiptap/react';
 import { Editor } from '@/components/editor/Editor';
 import { SidePane } from '@/components/editor/SidePane';
 import { TypewriterMachine } from '@/components/landing/TypewriterMachine';
+import { CowriterBar } from '@/components/editor/CowriterBar';
+import { SelectionMenu } from '@/components/editor/SelectionMenu';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 
 export function DocumentSurface({
@@ -17,6 +20,7 @@ export function DocumentSurface({
   const [lastChar, setLastChar] = useState('');
   const [pressTick, setPressTick] = useState(0);
   const [paragraphs, setParagraphs] = useState<string[]>([]);
+  const [editorInstance, setEditorInstance] = useState<TiptapEditor | null>(null);
 
   // debounced PATCH of proseText so the public viewer + search read fresh content
   const debouncedSaveProse = useDebounce(async (proseText: string) => {
@@ -65,6 +69,13 @@ export function DocumentSurface({
               setPressTick((t) => t + 1);
             }}
             onParagraphsChange={setParagraphs}
+            onEditorReady={setEditorInstance}
+          />
+          <SelectionMenu editor={editorInstance} paragraphs={paragraphs} />
+          <CowriterBar
+            documentId={documentId}
+            paragraphs={paragraphs}
+            editor={editorInstance}
           />
           <div className="mt-auto border-t border-rule bg-canvas-2 px-5 py-5">
             <TypewriterMachine lastChar={lastChar} pressTick={pressTick} />

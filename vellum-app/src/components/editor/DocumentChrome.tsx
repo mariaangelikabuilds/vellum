@@ -69,6 +69,34 @@ export function DocumentChrome({
     }
   };
 
+  const [broadcastState, setBroadcastState] = useState<
+    'idle' | 'sending' | 'sent' | 'error'
+  >('idle');
+  const [broadcastInfo, setBroadcastInfo] = useState<string>('');
+
+  const broadcast = async () => {
+    if (broadcastState === 'sending') return;
+    setBroadcastState('sending');
+    setBroadcastInfo('');
+    try {
+      const r = await fetch(`/api/documents/${documentId}/broadcast`, { method: 'POST' });
+      const body = (await r.json().catch(() => ({}))) as {
+        sent?: number;
+        error?: string;
+      };
+      if (r.ok) {
+        setBroadcastState('sent');
+        setBroadcastInfo(`sent to ${body.sent ?? 0}`);
+      } else {
+        setBroadcastState('error');
+        setBroadcastInfo(body.error ?? `${r.status}`);
+      }
+    } catch (e) {
+      setBroadcastState('error');
+      setBroadcastInfo(e instanceof Error ? e.message : 'failed');
+    }
+  };
+
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-rule px-6 py-3">
       <input
@@ -120,14 +148,30 @@ export function DocumentChrome({
           {published ? 'published' : 'publish'}
         </button>
         {published && (
-          <a
-            href={`/v/${documentId}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-ink-2 hover:text-ink"
-          >
-            view →
-          </a>
+          <>
+            <a
+              href={`/v/${documentId}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-ink-2 hover:text-ink"
+            >
+              view →
+            </a>
+            <button
+              type="button"
+              onClick={broadcast}
+              disabled={broadcastState === 'sending' || broadcastState === 'sent'}
+              className="border border-rule bg-canvas px-2 py-1 text-ink-2 hover:text-ink disabled:opacity-50"
+            >
+              {broadcastState === 'sending'
+                ? 'broadcasting…'
+                : broadcastState === 'sent'
+                ? `sent ${broadcastInfo ? `(${broadcastInfo})` : ''}`
+                : broadcastState === 'error'
+                ? `error: ${broadcastInfo}`
+                : 'broadcast'}
+            </button>
+          </>
         )}
       </div>
     </div>

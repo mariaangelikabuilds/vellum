@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Geist_Mono, Newsreader } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// Geist Sans dropped on purpose — sans-default reads as generic AI/SaaS chrome.
+// Vellum uses serif (Newsreader) for prose surfaces and Geist Mono for chrome.
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -34,7 +32,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
+        className={`${geistMono.variable} ${newsreader.variable} h-full antialiased`}
       >
         <body className="min-h-full flex flex-col">{children}</body>
       </html>

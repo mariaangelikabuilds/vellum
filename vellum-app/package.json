@@ -24,6 +24,7 @@
     "@neondatabase/serverless": "^1.1.0",
     "@sentry/nextjs": "^10.50.0",
     "@tiptap/core": "^3.22.4",
+    "@tiptap/extension-bubble-menu": "^3.22.4",
     "@tiptap/extension-collaboration": "^3.22.4",
     "@tiptap/extension-collaboration-caret": "^3.22.4",
     "@tiptap/react": "^3.22.4",

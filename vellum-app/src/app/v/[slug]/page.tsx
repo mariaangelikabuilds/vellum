@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/db';
 import { documents, users } from '@/db/schema';
 import { listClaimsForDocument } from '@/db/graph';
+import { SubscribeForm } from '@/components/v/SubscribeForm';
 
 interface AGRow {
   id: unknown;
@@ -128,6 +129,16 @@ export default async function PublicViewer({
               </ul>
             </details>
           )}
+        </section>
+
+        <section className="mt-16 border-t border-rule pt-8">
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
+            subscribe to {authorEmail || 'this writer'}
+          </p>
+          <p className="mb-4 max-w-md font-serif text-sm text-ink-2">
+            get the next essay by email when it&rsquo;s published — verified marks and all.
+          </p>
+          <SubscribeForm documentId={doc.id} />
         </section>
 
         <footer className="mt-16 border-t border-rule pt-8 font-mono text-[11px] text-ink-3">

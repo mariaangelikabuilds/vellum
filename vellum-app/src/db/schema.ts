@@ -121,6 +121,23 @@ export const usage = pgTable(
   (t) => [index('usage_org_meter_idx').on(t.orgId, t.meter, t.occurredAt)],
 );
 
+// Newsletter subscribers — readers subscribe to a writer's published essays
+export const subscribers = pgTable(
+  'subscribers',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    authorUserId: uuid('author_user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    email: text('email').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [
+    index('subscribers_author_idx').on(t.authorUserId),
+    index('subscribers_email_idx').on(t.email),
+  ],
+);
+
 export const subscriptions = pgTable('subscriptions', {
   id: uuid('id').primaryKey().defaultRandom(),
   orgId: uuid('org_id')
