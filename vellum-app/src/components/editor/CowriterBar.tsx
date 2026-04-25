@@ -66,14 +66,14 @@ export function CowriterBar({ documentId, paragraphs, editor }: Props) {
     <div className="border-t border-rule bg-canvas-2 px-7 py-4">
       {!suggestion && !loading ? (
         <div className="flex items-center justify-between gap-4">
-          <p className="font-mono text-[11px] text-ink-3">
-            stuck? sonnet will continue your thought, only with claims it can defend.
+          <p className="font-serif text-sm italic text-ink-3">
+            draft the next paragraph from where you left off.
           </p>
           <button
             type="button"
             onClick={run}
             disabled={loading}
-            className="border border-rule-strong bg-canvas px-3 py-1.5 font-mono text-xs text-ink hover:bg-canvas-2 disabled:opacity-40"
+            className="border border-rule-strong bg-canvas px-3 py-1.5 font-serif text-sm text-ink hover:bg-canvas-2 disabled:opacity-40"
           >
             continue ↳
           </button>
