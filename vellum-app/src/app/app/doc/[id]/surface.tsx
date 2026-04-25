@@ -7,15 +7,21 @@ import { SidePane } from '@/components/editor/SidePane';
 import { TypewriterMachine } from '@/components/landing/TypewriterMachine';
 import { CowriterBar } from '@/components/editor/CowriterBar';
 import { SelectionMenu } from '@/components/editor/SelectionMenu';
-import { VoiceCheckButton } from '@/components/editor/VoiceCheckButton';
+import { DocumentChrome } from '@/components/editor/DocumentChrome';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 
 export function DocumentSurface({
   documentId,
   initialProseText,
+  initialTitle,
+  initialTags,
+  initialPublished,
 }: {
   documentId: string;
   initialProseText?: string;
+  initialTitle: string;
+  initialTags: string[];
+  initialPublished: boolean;
 }) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [lastChar, setLastChar] = useState('');
@@ -39,8 +45,16 @@ export function DocumentSurface({
 
   return (
     <>
+      <DocumentChrome
+        documentId={documentId}
+        initialTitle={initialTitle}
+        initialTags={initialTags}
+        initialPublished={initialPublished}
+        paragraphs={paragraphs}
+      />
+
       {/* mobile / tablet: writing serious essays on a phone is a bad idea — show a clean notice instead */}
-      <section className="flex h-full items-center justify-center bg-canvas px-6 py-12 lg:hidden">
+      <section className="flex flex-1 items-center justify-center bg-canvas px-6 py-12 lg:hidden">
         <div className="max-w-sm border border-rule-strong bg-canvas-2 p-6">
           <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
             best on desktop
@@ -59,7 +73,7 @@ export function DocumentSurface({
       </section>
 
       {/* desktop */}
-      <div className="hidden h-full grid-cols-[1fr_360px] lg:grid">
+      <div className="hidden flex-1 grid-cols-[1fr_360px] overflow-hidden lg:grid">
         <div className="flex flex-col overflow-y-auto">
           <Editor
             documentId={documentId}
@@ -73,9 +87,6 @@ export function DocumentSurface({
             onEditorReady={setEditorInstance}
           />
           <SelectionMenu editor={editorInstance} paragraphs={paragraphs} />
-          <div className="flex items-center justify-end gap-2 border-t border-rule bg-canvas-2 px-7 py-2">
-            <VoiceCheckButton paragraphs={paragraphs} />
-          </div>
           <CowriterBar
             documentId={documentId}
             paragraphs={paragraphs}

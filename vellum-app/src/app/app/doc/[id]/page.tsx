@@ -4,7 +4,6 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/db';
 import { documents } from '@/db/schema';
 import { DocumentSurface } from './surface';
-import { DocumentChrome } from '@/components/editor/DocumentChrome';
 
 export default async function DocumentPage({
   params,
@@ -20,15 +19,13 @@ export default async function DocumentPage({
 
   return (
     <main className="flex h-screen flex-col bg-canvas">
-      <DocumentChrome
+      <DocumentSurface
         documentId={doc.id}
         initialTitle={doc.title}
         initialTags={doc.tags ?? []}
         initialPublished={doc.published ?? false}
+        initialProseText={doc.proseText ?? ''}
       />
-      <div className="flex-1 overflow-hidden">
-        <DocumentSurface documentId={doc.id} initialProseText={doc.proseText ?? ''} />
-      </div>
     </main>
   );
 }

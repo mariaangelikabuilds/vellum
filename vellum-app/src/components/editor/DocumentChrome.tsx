@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@/lib/hooks/use-debounce';
+import { VoiceCheckButton } from './VoiceCheckButton';
 
 interface Props {
   documentId: string;
   initialTitle: string;
   initialTags: string[];
   initialPublished: boolean;
+  /** live paragraphs from the editor; used by the voice-check button */
+  paragraphs: string[];
 }
 
 export function DocumentChrome({
@@ -15,6 +18,7 @@ export function DocumentChrome({
   initialTitle,
   initialTags,
   initialPublished,
+  paragraphs,
 }: Props) {
   const [title, setTitle] = useState(initialTitle);
   const [tags, setTags] = useState<string[]>(initialTags);
@@ -137,6 +141,7 @@ export function DocumentChrome({
 
       <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest">
         {saving && <span className="text-ink-3">saving…</span>}
+        <VoiceCheckButton paragraphs={paragraphs} />
         <button
           type="button"
           onClick={togglePublish}
