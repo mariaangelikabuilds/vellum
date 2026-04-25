@@ -1,0 +1,12 @@
+{"input": "The current generation of AI writing tools is text-shaped — they polish prose but cannot see the structure of an argument.", "expected": {"claims": [{"text": "AI writing tools is text-shaped", "type": "factual", "confidence_min": 0.7}]}}
+{"input": "Maybe AI tools will eventually solve this on their own.", "expected": {"claims": [{"text": "AI tools will eventually solve this on their own", "type": "speculation", "confidence_min": 0.6}]}}
+{"input": "Is the gap because the underlying CRDT work is too expensive?", "expected": {"claims": [{"text": "the underlying CRDT work is too expensive", "type": "question", "confidence_min": 0.85}]}}
+{"input": "Clearbrief raised $5M in 2024 according to Crunchbase.", "expected": {"claims": [{"text": "Clearbrief raised $5M in 2024", "type": "factual", "confidence_min": 0.85}]}}
+{"input": "I think Postgres is better than MongoDB for our use case.", "expected": {"claims": [{"text": "Postgres is better than MongoDB for our use case", "type": "opinion", "confidence_min": 0.75}]}}
+{"input": "According to the 2025 Stack Overflow survey, 65% of developers prefer TypeScript.", "expected": {"claims": [{"text": "65% of developers prefer TypeScript", "type": "factual", "confidence_min": 0.85}]}}
+{"input": "Will the eval-gated CI catch regressions before they ship?", "expected": {"claims": [{"text": "Will the eval-gated CI catch regressions before they ship", "type": "question", "confidence_min": 0.85}]}}
+{"input": "Yjs uses CRDTs to merge concurrent edits without a server.", "expected": {"claims": [{"text": "Yjs uses CRDTs to merge concurrent edits without a server", "type": "factual", "confidence_min": 0.8}]}}
+{"input": "Perhaps Tiptap will become the dominant rich-text framework by 2027.", "expected": {"claims": [{"text": "Tiptap will become the dominant rich-text framework by 2027", "type": "speculation", "confidence_min": 0.65}]}}
+{"input": "Apache AGE provides graph database functionality on top of Postgres.", "expected": {"claims": [{"text": "Apache AGE provides graph database functionality on top of Postgres", "type": "factual", "confidence_min": 0.8}]}}
+{"input": "Anthropic's models are easier to align than OpenAI's.", "expected": {"claims": [{"text": "Anthropic's models are easier to align than OpenAI's", "type": "opinion", "confidence_min": 0.7}]}}
+{"input": "What is the cost-per-call of Haiku 4.5 versus Sonnet 4.6?", "expected": {"claims": [{"text": "What is the cost-per-call of Haiku 4.5 versus Sonnet 4.6", "type": "question", "confidence_min": 0.9}]}}
