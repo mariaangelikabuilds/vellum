@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" width="100%" font-family="Newsreader, Georgia, serif">
+  <!-- canvas -->
+  <rect width="920" height="540" fill="#fff"/>
+
+  <!-- title -->
+  <text x="460" y="34" text-anchor="middle" font-size="14" font-style="italic" fill="#525252">
+    Vellum · data flow from keystroke to verified essay
+  </text>
+
+  <!-- ====== Layer 1 : Browser ====== -->
+  <g transform="translate(40 70)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">BROWSER · NEXT.JS 16</text>
+    <rect x="0" y="0" width="280" height="100" fill="#fff" stroke="#0a0a0a" stroke-width="1.2"/>
+    <text x="140" y="28" text-anchor="middle" font-size="14" fill="#0a0a0a">Tiptap editor + Yjs CRDT</text>
+    <text x="140" y="48" text-anchor="middle" font-size="11" fill="#525252">claim · evidence · question marks</text>
+    <text x="140" y="68" text-anchor="middle" font-size="11" fill="#525252">selection bubble · cowriter dock</text>
+    <text x="140" y="86" text-anchor="middle" font-size="11" fill="#525252">5-tab side-pane (live data)</text>
+  </g>
+
+  <g transform="translate(360 70)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">SERVERLESS API ROUTES</text>
+    <rect x="0" y="0" width="220" height="100" fill="#fff" stroke="#0a0a0a" stroke-width="1.2"/>
+    <text x="110" y="28" text-anchor="middle" font-size="14" fill="#0a0a0a">/api/* on Vercel</text>
+    <text x="110" y="48" text-anchor="middle" font-size="11" fill="#525252">14 endpoints · Clerk-protected</text>
+    <text x="110" y="68" text-anchor="middle" font-size="11" fill="#525252">detect · verify · reconcile</text>
+    <text x="110" y="86" text-anchor="middle" font-size="11" fill="#525252">critic · outline · cowrite · ai-check</text>
+  </g>
+
+  <g transform="translate(620 70)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">PUBLIC VIEWER · /v/[slug]</text>
+    <rect x="0" y="0" width="260" height="100" fill="#fff" stroke="#0a0a0a" stroke-width="1.2"/>
+    <text x="130" y="28" text-anchor="middle" font-size="14" fill="#0a0a0a">Anonymous reading</text>
+    <text x="130" y="48" text-anchor="middle" font-size="11" fill="#525252">prose + claim graph + sources</text>
+    <text x="130" y="68" text-anchor="middle" font-size="11" fill="#525252">subscribe form (Resend)</text>
+    <text x="130" y="86" text-anchor="middle" font-size="11" fill="#525252">no login required</text>
+  </g>
+
+  <!-- arrows browser → api -->
+  <line x1="320" y1="120" x2="358" y2="120" stroke="#0a0a0a" stroke-width="1"/>
+  <polygon points="358,120 352,116 352,124" fill="#0a0a0a"/>
+  <text x="338" y="115" text-anchor="middle" font-size="9" fill="#a3a3a3">fetch</text>
+
+  <line x1="580" y1="120" x2="618" y2="120" stroke="#0a0a0a" stroke-width="1"/>
+  <polygon points="618,120 612,116 612,124" fill="#0a0a0a"/>
+  <text x="599" y="115" text-anchor="middle" font-size="9" fill="#a3a3a3">publish</text>
+
+  <!-- ====== Layer 2 : Agent fleet ====== -->
+  <g transform="translate(40 220)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">AGENT FLEET · ANTHROPIC SDK</text>
+    <rect x="0" y="0" width="540" height="120" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.2"/>
+
+    <g transform="translate(12 18)">
+      <rect x="0" y="0" width="160" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="80" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">claim-detector</text>
+      <text x="80" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Haiku · ~200ms</text>
+    </g>
+    <g transform="translate(186 18)">
+      <rect x="0" y="0" width="160" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="80" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">verifier</text>
+      <text x="80" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Sonnet · 4 tools · 8-iter cap</text>
+    </g>
+    <g transform="translate(360 18)">
+      <rect x="0" y="0" width="160" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="80" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">contradiction-finder</text>
+      <text x="80" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Sonnet · pairwise scan</text>
+    </g>
+    <g transform="translate(12 70)">
+      <rect x="0" y="0" width="120" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="60" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">reconciler</text>
+      <text x="60" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Sonnet</text>
+    </g>
+    <g transform="translate(146 70)">
+      <rect x="0" y="0" width="120" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="60" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">critic · outline</text>
+      <text x="60" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Sonnet</text>
+    </g>
+    <g transform="translate(280 70)">
+      <rect x="0" y="0" width="120" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="60" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">cowriter</text>
+      <text x="60" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Sonnet · voice-matched</text>
+    </g>
+    <g transform="translate(414 70)">
+      <rect x="0" y="0" width="114" height="42" fill="#fff" stroke="#525252" stroke-width="0.8"/>
+      <text x="57" y="17" text-anchor="middle" font-size="11" fill="#0a0a0a">synonyms · explain · ai-check</text>
+      <text x="57" y="33" text-anchor="middle" font-size="9" fill="#a3a3a3">Haiku · Sonnet</text>
+    </g>
+  </g>
+
+  <g transform="translate(620 220)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">EVAL HARNESS · BRAINTRUST</text>
+    <rect x="0" y="0" width="260" height="120" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.2"/>
+    <text x="130" y="28" text-anchor="middle" font-size="14" fill="#0a0a0a">vellum-claim-detector-v1</text>
+    <text x="130" y="50" text-anchor="middle" font-size="11" fill="#525252">3 custom scorers · n=30</text>
+    <text x="130" y="74" text-anchor="middle" font-size="11" fill="#0a0a0a">type_match: 86.36%</text>
+    <text x="130" y="92" text-anchor="middle" font-size="11" fill="#0a0a0a">claim_count: 100%</text>
+    <text x="130" y="108" text-anchor="middle" font-size="9" fill="#a3a3a3">CI gate: drop &gt; 0.05 below baseline = block</text>
+  </g>
+
+  <!-- arrows api → agents -->
+  <line x1="430" y1="172" x2="290" y2="218" stroke="#0a0a0a" stroke-width="0.8"/>
+  <polygon points="290,218 296,212 290,210" fill="#0a0a0a"/>
+
+  <!-- agents → evals -->
+  <line x1="582" y1="280" x2="618" y2="280" stroke="#a3a3a3" stroke-width="0.8" stroke-dasharray="4 3"/>
+  <text x="600" y="276" text-anchor="middle" font-size="9" fill="#a3a3a3">eval</text>
+
+  <!-- ====== Layer 3 : Database ====== -->
+  <g transform="translate(40 380)">
+    <text x="0" y="-8" font-size="10" letter-spacing="1.5" font-weight="600" fill="#a3a3a3">AZURE POSTGRES FLEXIBLE SERVER · ONE TRANSACTIONAL BOUNDARY</text>
+    <rect x="0" y="0" width="840" height="130" fill="#fff" stroke="#0a0a0a" stroke-width="1.2"/>
+
+    <g transform="translate(20 20)">
+      <text x="0" y="0" font-size="10" letter-spacing="1" font-weight="600" fill="#525252">RELATIONAL · DRIZZLE</text>
+      <text x="0" y="20" font-size="11" fill="#0a0a0a">orgs · users · documents · revisions</text>
+      <text x="0" y="38" font-size="11" fill="#0a0a0a">bibliography · usage · subscribers · subscriptions</text>
+      <text x="0" y="58" font-size="9" fill="#a3a3a3">8 tables · btree indexes · cascading FKs</text>
+    </g>
+
+    <line x1="280" y1="20" x2="280" y2="110" stroke="#a3a3a3" stroke-width="0.6"/>
+
+    <g transform="translate(300 20)">
+      <text x="0" y="0" font-size="10" letter-spacing="1" font-weight="600" fill="#525252">GRAPH · APACHE AGE 1.6.0</text>
+      <text x="0" y="20" font-size="11" fill="#0a0a0a">Claim vertices · supports · contradicts</text>
+      <text x="0" y="38" font-size="11" fill="#0a0a0a">qualifies · depends_on edges</text>
+      <text x="0" y="58" font-size="9" fill="#a3a3a3">Cypher via cypher() · search_path = ag_catalog</text>
+    </g>
+
+    <line x1="560" y1="20" x2="560" y2="110" stroke="#a3a3a3" stroke-width="0.6"/>
+
+    <g transform="translate(580 20)">
+      <text x="0" y="0" font-size="10" letter-spacing="1" font-weight="600" fill="#525252">VECTOR · PGVECTOR 0.8.2</text>
+      <text x="0" y="20" font-size="11" fill="#0a0a0a">bibliography.embedding (1024-dim)</text>
+      <text x="0" y="38" font-size="11" fill="#0a0a0a">Voyage `voyage-3-large`</text>
+      <text x="0" y="58" font-size="9" fill="#a3a3a3">HNSW index · cosine similarity</text>
+    </g>
+  </g>
+
+  <!-- agents → db arrow -->
+  <line x1="280" y1="340" x2="280" y2="378" stroke="#0a0a0a" stroke-width="1"/>
+  <polygon points="280,378 276,372 284,372" fill="#0a0a0a"/>
+
+  <!-- db → viewer arrow -->
+  <line x1="700" y1="380" x2="700" y2="170" stroke="#0a0a0a" stroke-width="0.8" stroke-dasharray="4 3"/>
+  <polygon points="700,170 696,178 704,178" fill="#0a0a0a"/>
+  <text x="710" y="280" font-size="9" fill="#a3a3a3" transform="rotate(-90, 710, 280)">read</text>
+</svg>

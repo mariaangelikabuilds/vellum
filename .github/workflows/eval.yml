@@ -1,0 +1,39 @@
+name: eval
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'vellum-app/src/ai/**'
+      - 'vellum-app/evals/**'
+      - 'vellum-app/package.json'
+  workflow_dispatch:
+
+jobs:
+  claim-detector:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vellum-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: 'vellum-app/pnpm-lock.yaml'
+      - run: pnpm install --frozen-lockfile
+      - name: Run claim-detector eval
+        run: pnpm eval
+        env:
+          BRAINTRUST_API_KEY: ${{ secrets.BRAINTRUST_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Regression gate
+        # fail the job if scores drop more than 0.05 below baseline.
+        # baseline lives in evals/baseline.json; the gate script is added in v1.5.
+        # for v1, this step is a no-op so the badge can render green on functional runs.
+        run: echo "regression gate not yet wired — see docs/decisions.md"

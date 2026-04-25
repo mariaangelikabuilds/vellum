@@ -8,6 +8,8 @@ import { TypewriterMachine } from '@/components/landing/TypewriterMachine';
 import { CowriterBar } from '@/components/editor/CowriterBar';
 import { SelectionMenu } from '@/components/editor/SelectionMenu';
 import { DocumentChrome } from '@/components/editor/DocumentChrome';
+import { CommandPalette } from '@/components/editor/CommandPalette';
+import type { TabId } from '@/components/editor/SidePane';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 
 export function DocumentSurface({
@@ -28,6 +30,7 @@ export function DocumentSurface({
   const [pressTick, setPressTick] = useState(0);
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [editorInstance, setEditorInstance] = useState<TiptapEditor | null>(null);
+  const [tab, setTab] = useState<TabId>('marks');
 
   // debounced PATCH of proseText so the public viewer + search read fresh content
   const debouncedSaveProse = useDebounce(async (proseText: string) => {
@@ -104,8 +107,37 @@ export function DocumentSurface({
           </div>
         </div>
         {/* side-pane column: own internal scroll already lives inside SidePane */}
-        <SidePane documentId={documentId} refreshKey={refreshKey} paragraphs={paragraphs} />
+        <SidePane
+          documentId={documentId}
+          refreshKey={refreshKey}
+          paragraphs={paragraphs}
+          tab={tab}
+          setTab={setTab}
+        />
       </div>
+
+      <CommandPalette
+        onRunCritic={() => setTab('critic')}
+        onRunOutline={() => setTab('outline')}
+        onScanContradictions={() => setTab('map')}
+        onRunVoiceCheck={() => {
+          // VoiceCheckButton lives in DocumentChrome — clicking it directly is the
+          // simplest action; here we just navigate the user's eye to it via toast.
+          // For v1.6 we'll wire a global event the button listens for.
+          alert('voice check lives in the doc chrome — click "voice check" in the top bar');
+        }}
+        onContinueWriting={() => {
+          alert('the "continue ↳" button lives in the dock at the bottom of the editor');
+        }}
+        onTogglePublish={() => {
+          alert('the "publish" toggle lives in the doc chrome — top right');
+        }}
+        onCopyShareUrl={() => {
+          if (typeof window !== 'undefined') {
+            navigator.clipboard.writeText(`${window.location.origin}/v/${documentId}`);
+          }
+        }}
+      />
     </>
   );
 }

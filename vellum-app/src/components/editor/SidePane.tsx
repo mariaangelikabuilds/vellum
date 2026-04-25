@@ -1,23 +1,24 @@
 'use client';
 
-import { useState } from 'react';
 import { ClaimsTab } from './tabs/ClaimsTab';
 import { SourcesTab } from './tabs/SourcesTab';
 import { MapTab } from './tabs/MapTab';
 import { CriticTab } from './tabs/CriticTab';
 import { OutlineTab } from './tabs/OutlineTab';
 
-type TabId = 'marks' | 'sources' | 'map' | 'outline' | 'critic';
+export type TabId = 'marks' | 'sources' | 'map' | 'outline' | 'critic';
 
 interface Props {
   documentId: string;
   refreshKey: number;
   /** parent provides the current paragraphs so Critic / Outline can run on them */
   paragraphs: string[];
+  /** controlled tab state (lifted to surface so command palette can switch) */
+  tab: TabId;
+  setTab: (tab: TabId) => void;
 }
 
-export function SidePane({ documentId, refreshKey, paragraphs }: Props) {
-  const [tab, setTab] = useState<TabId>('marks');
+export function SidePane({ documentId, refreshKey, paragraphs, tab, setTab }: Props) {
 
   const tabs: { id: TabId; label: string }[] = [
     { id: 'marks', label: 'marks' },
