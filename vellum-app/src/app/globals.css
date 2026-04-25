@@ -164,6 +164,16 @@ body {
   margin-bottom: 0;
 }
 
+/* Skeleton loader — gentle shimmer on rule color, no AI-glow */
+@keyframes vellum-shimmer {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+.skeleton {
+  background: var(--rule);
+  animation: vellum-shimmer 1.6s ease-in-out infinite;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

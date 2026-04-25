@@ -43,7 +43,17 @@ export function ClaimsTab({
         <span>{loading ? '…' : `${claims.length} mark${claims.length === 1 ? '' : 's'}`}</span>
       </header>
 
-      {claims.length === 0 && !loading ? (
+      {loading && claims.length === 0 ? (
+        <ul className="space-y-2">
+          {[0, 1, 2].map((i) => (
+            <li key={i} className="border border-rule bg-canvas p-2">
+              <div className="skeleton h-2 w-24" />
+              <div className="skeleton mt-2 h-3 w-full" />
+              <div className="skeleton mt-1 h-3 w-3/4" />
+            </li>
+          ))}
+        </ul>
+      ) : claims.length === 0 && !loading ? (
         <p className="font-serif text-sm text-ink-3">
           start typing — marks appear as the detector runs.
         </p>
