@@ -20,6 +20,20 @@ export function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const onGoogle = async () => {
+    if (!isLoaded || submitting) return;
+    setError(null);
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: 'oauth_google',
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: '/app',
+      });
+    } catch (err) {
+      setError(extractClerkError(err));
+    }
+  };
+
   const submitCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoaded || submitting) return;
@@ -73,6 +87,23 @@ export function SignUpForm() {
       </header>
 
       {stage === 'form' ? (
+        <>
+          <button
+            type="button"
+            onClick={onGoogle}
+            disabled={!isLoaded || submitting}
+            className="mb-5 flex w-full items-center justify-center gap-2 border border-rule bg-canvas px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-ink hover:border-rule-strong disabled:opacity-50"
+          >
+            <GoogleGlyph />
+            continue with Google
+          </button>
+
+          <div className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-ink-3">
+            <span className="h-px flex-1 bg-rule" />
+            or
+            <span className="h-px flex-1 bg-rule" />
+          </div>
+
         <form onSubmit={submitCredentials} className="space-y-5">
           <Field label="email">
             <input
@@ -118,6 +149,7 @@ export function SignUpForm() {
             {submitting ? 'creating account…' : 'continue'}
           </button>
         </form>
+        </>
       ) : (
         <form onSubmit={submitCode} className="space-y-5">
           <Field label="verification code">
@@ -171,6 +203,17 @@ export function SignUpForm() {
         </p>
       </footer>
     </div>
+  );
+}
+
+function GoogleGlyph() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path
+        d="M9 7.36v3.4h4.74c-.2 1.13-1.42 3.32-4.74 3.32a5.08 5.08 0 1 1 0-10.16c1.6 0 2.68.68 3.3 1.27l2.25-2.17A8.1 8.1 0 0 0 9 .82a8.18 8.18 0 1 0 0 16.36c4.72 0 7.85-3.32 7.85-7.99 0-.54-.06-.95-.13-1.36L9 7.36z"
+        fill="currentColor"
+      />
+    </svg>
   );
 }
 
