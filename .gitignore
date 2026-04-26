@@ -43,3 +43,5 @@ src/db/migrations/_journal.json
 
 # Build log (private to Angel; uncomment if making public later)
 # docs/build-log.md
+
+.vercel
