@@ -5,6 +5,7 @@ import { db } from '@/db';
 import { documents } from '@/db/schema';
 import { suggestContinuation } from '@/ai/agents/cowriter';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(
   req: Request,
@@ -12,6 +13,11 @@ export async function POST(
 ) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
+  const limit = rateLimit(`cowrite:${userId}`, { tokens: 10, windowMs: 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json({ error: 'rate limited — try again in a minute' }, { status: 429 });
+  }
 
   const user = await syncCurrentUser();
   const { id } = await params;

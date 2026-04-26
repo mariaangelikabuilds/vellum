@@ -7,6 +7,7 @@ import { documents } from '@/db/schema';
 import { detectClaims, type Claim } from '@/ai/agents/claim-detector';
 import { createClaimVertex } from '@/db/graph';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
+import { rateLimit } from '@/lib/rate-limit';
 
 // Accept either single paragraph (legacy) or array (new client).
 const Body = z.union([
@@ -24,6 +25,11 @@ const Body = z.union([
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
+  const limit = rateLimit(`detect-claims:${userId}`, { tokens: 60, windowMs: 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json({ error: 'rate limited — try again in a minute' }, { status: 429 });
+  }
 
   const user = await syncCurrentUser();
 

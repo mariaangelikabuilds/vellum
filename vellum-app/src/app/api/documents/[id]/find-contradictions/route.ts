@@ -6,6 +6,7 @@ import { documents } from '@/db/schema';
 import { findContradictionsForClaims } from '@/ai/agents/contradiction-finder';
 import { listClaimsForDocument, addEdge } from '@/db/graph';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
+import { rateLimit } from '@/lib/rate-limit';
 
 interface AGRow {
   id: unknown;
@@ -24,6 +25,11 @@ export async function POST(
 ) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
+  const limit = rateLimit(`find-contradictions:${userId}`, { tokens: 10, windowMs: 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json({ error: 'rate limited — try again in a minute' }, { status: 429 });
+  }
 
   const user = await syncCurrentUser();
   const { id } = await params;

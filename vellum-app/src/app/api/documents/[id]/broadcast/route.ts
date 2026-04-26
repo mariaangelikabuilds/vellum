@@ -46,6 +46,18 @@ export async function POST(
     return NextResponse.json({ error: 'RESEND_API_KEY not set' }, { status: 500 });
   }
 
+  // Read sender from env. In production this MUST be a verified-domain address
+  // (e.g. mail@vellum.dev). Falls back to Resend's dev sender for local
+  // development so nobody hits a 500 in setup; logs a warning so the gap is
+  // visible in observability when broadcasting from prod with the fallback.
+  const fromAddress = process.env.VELLUM_FROM_EMAIL;
+  const from = fromAddress ?? 'Vellum <onboarding@resend.dev>';
+  if (!fromAddress) {
+    console.warn(
+      'broadcast: VELLUM_FROM_EMAIL not set — using onboarding@resend.dev which Resend treats as dev sender. Verify a domain in Resend dashboard for production.',
+    );
+  }
+
   // Resend supports a `to` array — one API call broadcasts to all subscribers.
   // For larger lists, paginate; for v1, single batch.
   const r = await fetch('https://api.resend.com/emails', {
@@ -55,7 +67,7 @@ export async function POST(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Vellum <onboarding@resend.dev>',
+      from,
       to: subs.map((s) => s.email),
       subject: doc.title,
       html: renderEssayEmailHtml({

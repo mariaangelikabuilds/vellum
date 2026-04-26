@@ -58,6 +58,10 @@ export async function POST(
       authorUserId: doc.authorUserId,
       email,
     });
+  } else {
+    // Constant-time delay so the dedup-hit path takes ~comparable time to a
+    // fresh insert. Defends against email-enumeration via response timing.
+    await new Promise((r) => setTimeout(r, 50));
   }
 
   return NextResponse.json({ ok: true });

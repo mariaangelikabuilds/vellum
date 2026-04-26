@@ -8,7 +8,9 @@ import { syncCurrentUser } from '@/lib/auth/sync-user';
 
 const PatchBody = z.object({
   title: z.string().min(1).max(200).optional(),
-  proseText: z.string().optional(),
+  // ~500KB cap = ~50k words = generous for any single essay; protects against
+  // scripted clients storing arbitrary blobs as proseText
+  proseText: z.string().max(500_000).optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   published: z.boolean().optional(),
 });

@@ -5,6 +5,7 @@ import { db } from '@/db';
 import { documents } from '@/db/schema';
 import { critiqueDocument } from '@/ai/agents/critic';
 import { syncCurrentUser } from '@/lib/auth/sync-user';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(
   req: Request,
@@ -12,6 +13,12 @@ export async function POST(
 ) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+
+  // Critic runs Sonnet over the entire doc — ~$0.05/call. Hourly cap.
+  const limit = rateLimit(`critique:${userId}`, { tokens: 10, windowMs: 60 * 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json({ error: 'rate limited — try again later' }, { status: 429 });
+  }
 
   const user = await syncCurrentUser();
   const { id } = await params;
