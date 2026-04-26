@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { anthropic, MODELS, callCostCents } from '../client';
 import { trackAgentCall } from '@/lib/billing/track-usage';
+import { stripFences } from '../lib/strip-fences';
 
 const ClaimSchema = z.object({
   claims: z.array(
@@ -49,8 +50,7 @@ export async function detectClaims(paragraph: string, orgId: string): Promise<Cl
   const raw = block && block.type === 'text' ? block.text : '';
   // Haiku occasionally wraps output in ```json fences despite system prompt
   // saying not to. Strip fences and any surrounding prose before parsing.
-  const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  const jsonText = fenceMatch?.[1] ?? raw.trim();
+  const jsonText = stripFences(raw);
   const parsed = ClaimSchema.parse(JSON.parse(jsonText));
 
   const costCents = callCostCents({

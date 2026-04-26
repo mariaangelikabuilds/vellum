@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { anthropic, MODELS, callCostCents } from '../client';
 import { trackAgentCall } from '@/lib/billing/track-usage';
+import { stripFences } from '../lib/strip-fences';
 
 const GapSchema = z.object({
   gaps: z.array(
@@ -42,8 +43,7 @@ export async function detectGaps(claimGraph: unknown, orgId: string): Promise<Ga
 
   const block = resp.content[0];
   const raw = block && block.type === 'text' ? block.text : '{"gaps": []}';
-  const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  const jsonText = fenceMatch?.[1] ?? raw.trim();
+  const jsonText = stripFences(raw);
   const parsed = GapSchema.parse(JSON.parse(jsonText));
   return parsed.gaps;
 }

@@ -11,6 +11,7 @@ import { DocumentChrome } from '@/components/editor/DocumentChrome';
 import { CommandPalette } from '@/components/editor/CommandPalette';
 import type { TabId } from '@/components/editor/SidePane';
 import { useDebounce } from '@/lib/hooks/use-debounce';
+import { toast } from 'sonner';
 
 export function DocumentSurface({
   documentId,
@@ -121,20 +122,24 @@ export function DocumentSurface({
         onRunOutline={() => setTab('outline')}
         onScanContradictions={() => setTab('map')}
         onRunVoiceCheck={() => {
-          // VoiceCheckButton lives in DocumentChrome — clicking it directly is the
-          // simplest action; here we just navigate the user's eye to it via toast.
-          // For v1.6 we'll wire a global event the button listens for.
-          alert('voice check lives in the doc chrome — click "voice check" in the top bar');
+          toast('voice check is in the document chrome', {
+            description: 'top right · click the chip',
+          });
         }}
         onContinueWriting={() => {
-          alert('the "continue ↳" button lives in the dock at the bottom of the editor');
+          toast('continue ↳ is in the dock', {
+            description: 'just below the writing canvas',
+          });
         }}
         onTogglePublish={() => {
-          alert('the "publish" toggle lives in the doc chrome — top right');
+          toast('publish toggle is in the document chrome', {
+            description: 'next to title · top right',
+          });
         }}
         onCopyShareUrl={() => {
           if (typeof window !== 'undefined') {
             navigator.clipboard.writeText(`${window.location.origin}/v/${documentId}`);
+            toast('share URL copied', { description: `/v/${documentId}` });
           }
         }}
       />

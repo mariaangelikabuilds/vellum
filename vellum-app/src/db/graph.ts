@@ -35,12 +35,26 @@ export async function createClaimVertex(v: ClaimVertex) {
   return result.rows[0];
 }
 
+// Defense-in-depth allow-list for AGE edge labels — `sql.raw(type)` interpolates
+// the value directly into Cypher, so even though TS narrows it to EdgeType, a
+// future refactor passing `string` would be a SQL-injection footgun. Assert
+// membership at runtime so the boundary stays trustworthy.
+const ALLOWED_EDGE_TYPES = new Set<EdgeType>([
+  'supports',
+  'contradicts',
+  'qualifies',
+  'depends_on',
+]);
+
 export async function addEdge(
   fromClaimId: string,
   toClaimId: string,
   type: EdgeType,
   props: Record<string, unknown> = {},
 ) {
+  if (!ALLOWED_EDGE_TYPES.has(type)) {
+    throw new Error(`addEdge: invalid edge type "${type}"`);
+  }
   const params = JSON.stringify({ from: fromClaimId, to: toClaimId, ...props });
   const propsCypher = Object.keys(props)
     .map((k) => `${k}: $${k}`)

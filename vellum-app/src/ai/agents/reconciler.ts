@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { anthropic, MODELS, callCostCents } from '../client';
 import { trackAgentCall } from '@/lib/billing/track-usage';
+import { stripFences } from '../lib/strip-fences';
 
 const ReconciliationSchema = z.object({
   rewrite: z.string(),
@@ -57,7 +58,6 @@ export async function reconcileClaims({
 
   const block = resp.content[0];
   const raw = block && block.type === 'text' ? block.text : '';
-  const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-  const jsonText = fenceMatch?.[1] ?? raw.trim();
+  const jsonText = stripFences(raw);
   return ReconciliationSchema.parse(JSON.parse(jsonText));
 }

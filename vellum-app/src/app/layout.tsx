@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Newsreader, Libre_Franklin } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 // Two-font system, both free Google Fonts:
@@ -43,7 +44,10 @@ export default function RootLayout({
         lang="en"
         className={`${geistMono.variable} ${newsreader.variable} ${libreFranklin.variable} h-full antialiased`}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col">
+          {children}
+          <Toaster position="bottom-right" />
+        </body>
       </html>
     </ClerkProvider>
   );
