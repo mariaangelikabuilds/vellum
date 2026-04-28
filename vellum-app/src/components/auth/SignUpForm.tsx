@@ -12,7 +12,7 @@ type Stage = 'form' | 'verify';
 
 export function SignUpForm() {
   const { isLoaded, signUp } = useSignUp();
-  const { setActive } = useClerk();
+  const { setActive, signOut } = useClerk();
   const { isSignedIn } = useAuth();
   const router = useRouter();
 
@@ -26,6 +26,12 @@ export function SignUpForm() {
   useEffect(() => {
     if (isSignedIn) router.replace('/app');
   }, [isSignedIn, router]);
+
+  const onResetSession = async () => {
+    setError(null);
+    try { await signOut(); } catch {}
+    window.location.href = '/sign-up';
+  };
 
   const onGoogle = async () => {
     if (!isLoaded || submitting) return;
@@ -71,7 +77,8 @@ export function SignUpForm() {
     } catch (err) {
       const message = extractClerkError(err);
       if (/session.*exists/i.test(message)) {
-        router.replace('/app');
+        try { await signOut(); } catch {}
+        window.location.href = '/sign-up';
         return;
       }
       setError(message);
@@ -102,7 +109,8 @@ export function SignUpForm() {
     } catch (err) {
       const message = extractClerkError(err);
       if (/session.*exists/i.test(message)) {
-        router.replace('/app');
+        try { await signOut(); } catch {}
+        window.location.href = '/sign-up';
         return;
       }
       setError(message);
@@ -237,6 +245,16 @@ export function SignUpForm() {
           <Link href="/sign-in" className="text-ink underline-offset-4 hover:underline">
             Sign in.
           </Link>
+        </p>
+        <p className="mt-3 font-mono text-xs text-ink-3">
+          Stuck on a stale session?{' '}
+          <button
+            type="button"
+            onClick={onResetSession}
+            className="underline underline-offset-4 hover:text-ink"
+          >
+            Reset and start fresh.
+          </button>
         </p>
       </footer>
     </div>

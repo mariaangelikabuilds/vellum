@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function SignInForm() {
   const { isLoaded, signIn } = useSignIn();
-  const { setActive } = useClerk();
+  const { setActive, signOut } = useClerk();
   const { isSignedIn } = useAuth();
   const router = useRouter();
 
@@ -67,13 +67,20 @@ export function SignInForm() {
     } catch (err) {
       const message = extractClerkError(err);
       if (/session.*exists/i.test(message)) {
-        router.replace('/app');
+        try { await signOut(); } catch {}
+        window.location.href = '/sign-in';
         return;
       }
       setError(message);
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const onResetSession = async () => {
+    setError(null);
+    try { await signOut(); } catch {}
+    window.location.href = '/sign-in';
   };
 
   return (
@@ -150,6 +157,16 @@ export function SignInForm() {
           <Link href="/sign-up" className="text-ink underline-offset-4 hover:underline">
             Create an account.
           </Link>
+        </p>
+        <p className="mt-3 font-mono text-xs text-ink-3">
+          Stuck on a stale session?{' '}
+          <button
+            type="button"
+            onClick={onResetSession}
+            className="underline underline-offset-4 hover:text-ink"
+          >
+            Reset and start fresh.
+          </button>
         </p>
       </footer>
     </form>
