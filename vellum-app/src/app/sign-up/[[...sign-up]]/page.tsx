@@ -1,7 +1,12 @@
 import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { SignUpForm } from '@/components/auth/SignUpForm';
 
-export default function Page() {
+export default async function Page() {
+  const { userId } = await auth();
+  if (userId) redirect('/app');
+
   return (
     <main className="flex min-h-screen flex-col bg-canvas">
       <nav className="border-b border-rule px-5 py-4 sm:px-8 sm:py-5">
