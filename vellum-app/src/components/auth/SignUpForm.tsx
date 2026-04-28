@@ -1,16 +1,19 @@
 'use client';
 
-import { useClerk } from '@clerk/nextjs';
+import { useClerk, useAuth } from '@clerk/nextjs';
 import { useSignUp } from '@clerk/nextjs/legacy';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Stage = 'form' | 'verify';
 
 export function SignUpForm() {
   const { isLoaded, signUp } = useSignUp();
   const { setActive } = useClerk();
+  const { isSignedIn } = useAuth();
   const router = useRouter();
 
   const [stage, setStage] = useState<Stage>('form');
@@ -19,6 +22,10 @@ export function SignUpForm() {
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isSignedIn) router.replace('/app');
+  }, [isSignedIn, router]);
 
   const onGoogle = async () => {
     if (!isLoaded || submitting) return;
@@ -38,13 +45,36 @@ export function SignUpForm() {
     e.preventDefault();
     if (!isLoaded || submitting) return;
     setError(null);
+
+    if (!email.trim()) {
+      setError('Enter your email to continue.');
+      return;
+    }
+    if (!EMAIL_RE.test(email)) {
+      setError('That email address looks off — check the spelling.');
+      return;
+    }
+    if (!password) {
+      setError('Choose a password.');
+      return;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least eight characters.');
+      return;
+    }
+
     setSubmitting(true);
     try {
       await signUp.create({ emailAddress: email, password });
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
       setStage('verify');
     } catch (err) {
-      setError(extractClerkError(err));
+      const message = extractClerkError(err);
+      if (/session.*exists/i.test(message)) {
+        router.replace('/app');
+        return;
+      }
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -54,6 +84,12 @@ export function SignUpForm() {
     e.preventDefault();
     if (!isLoaded || submitting) return;
     setError(null);
+
+    if (code.length !== 6) {
+      setError('Enter the six-digit code from your email.');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const result = await signUp.attemptEmailAddressVerification({ code });
@@ -61,10 +97,15 @@ export function SignUpForm() {
         await setActive({ session: result.createdSessionId });
         router.push('/app');
       } else {
-        setError('verification incomplete — try the code again');
+        setError('Verification incomplete — try the code again.');
       }
     } catch (err) {
-      setError(extractClerkError(err));
+      const message = extractClerkError(err);
+      if (/session.*exists/i.test(message)) {
+        router.replace('/app');
+        return;
+      }
+      setError(message);
     } finally {
       setSubmitting(false);
     }
@@ -104,13 +145,12 @@ export function SignUpForm() {
             <span className="h-px flex-1 bg-rule" />
           </div>
 
-        <form onSubmit={submitCredentials} className="space-y-5">
+        <form onSubmit={submitCredentials} noValidate className="space-y-5">
           <Field label="email">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               autoFocus
               autoComplete="email"
               className="w-full border border-rule bg-canvas px-3 py-2.5 font-serif text-base text-ink placeholder:text-ink-3 focus:border-rule-strong focus:outline-none"
@@ -123,9 +163,7 @@ export function SignUpForm() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               autoComplete="new-password"
-              minLength={8}
               className="w-full border border-rule bg-canvas px-3 py-2.5 font-serif text-base text-ink placeholder:text-ink-3 focus:border-rule-strong focus:outline-none"
             />
             <span className="mt-1 block font-serif text-xs italic text-ink-3">
@@ -151,13 +189,12 @@ export function SignUpForm() {
         </form>
         </>
       ) : (
-        <form onSubmit={submitCode} className="space-y-5">
+        <form onSubmit={submitCode} noValidate className="space-y-5">
           <Field label="verification code">
             <input
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-              required
               autoFocus
               inputMode="numeric"
               maxLength={6}

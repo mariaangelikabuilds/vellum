@@ -1,20 +1,27 @@
 'use client';
 
-import { useClerk } from '@clerk/nextjs';
+import { useClerk, useAuth } from '@clerk/nextjs';
 import { useSignIn } from '@clerk/nextjs/legacy';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function SignInForm() {
   const { isLoaded, signIn } = useSignIn();
   const { setActive } = useClerk();
+  const { isSignedIn } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isSignedIn) router.replace('/app');
+  }, [isSignedIn, router]);
 
   const onGoogle = async () => {
     if (!isLoaded || submitting) return;
@@ -26,11 +33,7 @@ export function SignInForm() {
         redirectUrlComplete: '/app',
       });
     } catch (err) {
-      const message =
-        err && typeof err === 'object' && 'errors' in err && Array.isArray((err as { errors: { message: string }[] }).errors)
-          ? (err as { errors: { message: string }[] }).errors[0]?.message ?? 'Google sign-in failed'
-          : 'Google sign-in failed';
-      setError(message);
+      setError(extractClerkError(err));
     }
   };
 
@@ -38,6 +41,20 @@ export function SignInForm() {
     e.preventDefault();
     if (!isLoaded || submitting) return;
     setError(null);
+
+    if (!email.trim()) {
+      setError('Enter your email to continue.');
+      return;
+    }
+    if (!EMAIL_RE.test(email)) {
+      setError('That email address looks off — check the spelling.');
+      return;
+    }
+    if (!password) {
+      setError('Enter your password.');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const result = await signIn.create({ identifier: email, password });
@@ -45,13 +62,14 @@ export function SignInForm() {
         await setActive({ session: result.createdSessionId });
         router.push('/app');
       } else {
-        setError('additional verification required — visit /sign-in/factor for the next step');
+        setError('Additional verification required.');
       }
     } catch (err) {
-      const message =
-        err && typeof err === 'object' && 'errors' in err && Array.isArray((err as { errors: { message: string }[] }).errors)
-          ? (err as { errors: { message: string }[] }).errors[0]?.message ?? 'sign-in failed'
-          : 'sign-in failed';
+      const message = extractClerkError(err);
+      if (/session.*exists/i.test(message)) {
+        router.replace('/app');
+        return;
+      }
       setError(message);
     } finally {
       setSubmitting(false);
@@ -59,7 +77,7 @@ export function SignInForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-sm">
+    <form onSubmit={onSubmit} noValidate className="w-full max-w-sm">
       <header className="mb-8">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-3">
           vellum · sign in
@@ -94,7 +112,6 @@ export function SignInForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
             autoFocus
             autoComplete="email"
             className="w-full border border-rule bg-canvas px-3 py-2.5 font-serif text-base text-ink placeholder:text-ink-3 focus:border-rule-strong focus:outline-none"
@@ -107,7 +124,6 @@ export function SignInForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
             autoComplete="current-password"
             className="w-full border border-rule bg-canvas px-3 py-2.5 font-serif text-base text-ink placeholder:text-ink-3 focus:border-rule-strong focus:outline-none"
           />
@@ -138,6 +154,18 @@ export function SignInForm() {
       </footer>
     </form>
   );
+}
+
+function extractClerkError(err: unknown): string {
+  if (
+    err &&
+    typeof err === 'object' &&
+    'errors' in err &&
+    Array.isArray((err as { errors: { message: string }[] }).errors)
+  ) {
+    return (err as { errors: { message: string }[] }).errors[0]?.message ?? 'Something went wrong.';
+  }
+  return 'Something went wrong.';
 }
 
 function GoogleGlyph() {
