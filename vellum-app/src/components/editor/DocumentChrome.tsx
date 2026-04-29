@@ -11,6 +11,8 @@ interface Props {
   initialPublished: boolean;
   /** live paragraphs from the editor; used by the voice-check button */
   paragraphs: string[];
+  mode: 'researcher' | 'freeform';
+  onModeChange: (mode: 'researcher' | 'freeform') => void;
 }
 
 export function DocumentChrome({
@@ -19,6 +21,8 @@ export function DocumentChrome({
   initialTags,
   initialPublished,
   paragraphs,
+  mode,
+  onModeChange,
 }: Props) {
   const [title, setTitle] = useState(initialTitle);
   const [tags, setTags] = useState<string[]>(initialTags);
@@ -140,8 +144,34 @@ export function DocumentChrome({
       </div>
 
       <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest">
+        <div className="inline-flex border border-rule bg-canvas-2">
+          <button
+            type="button"
+            onClick={() => onModeChange('researcher')}
+            className={`px-2.5 py-1 ${
+              mode === 'researcher'
+                ? 'bg-ink text-canvas'
+                : 'text-ink-3 hover:text-ink'
+            }`}
+            title="claim/evidence/contradiction detection"
+          >
+            researcher
+          </button>
+          <button
+            type="button"
+            onClick={() => onModeChange('freeform')}
+            className={`border-l border-rule px-2.5 py-1 ${
+              mode === 'freeform'
+                ? 'bg-ink text-canvas'
+                : 'text-ink-3 hover:text-ink'
+            }`}
+            title="intent-coherence detection"
+          >
+            freeform
+          </button>
+        </div>
         {saving && <span className="text-ink-3">saving…</span>}
-        <VoiceCheckButton paragraphs={paragraphs} />
+        {mode === 'researcher' && <VoiceCheckButton paragraphs={paragraphs} />}
         <button
           type="button"
           onClick={togglePublish}

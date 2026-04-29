@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { usage } from '@/db/schema';
 
-export type UsageMeter = 'detector' | 'verifier' | 'gap';
+export type UsageMeter = 'detector' | 'verifier' | 'gap' | 'intent-check';
 
 /**
  * Records one row per agent call into the usage table. Section 5 will read

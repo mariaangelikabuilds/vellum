@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ClaimMark, type ClaimType } from '@/editor/extensions/claim';
 import { EvidenceMark } from '@/editor/extensions/evidence';
 import { QuestionMark } from '@/editor/extensions/question';
+import { IntentMark } from '@/editor/extensions/intent';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 
 interface DetectedClaim {
@@ -21,6 +22,9 @@ interface EditorProps {
   documentId: string;
   /** plaintext content to seed the editor on mount (from the persisted proseText column) */
   initialContent?: string;
+  /** which mode the document is in. researcher runs claim-detection on idle;
+      freeform skips it (intent-check is run manually from the INTENT tab). */
+  mode: 'researcher' | 'freeform';
   onClaimsDetected?: () => void;
   /** fires on every character entry; used by the typewriter machine to depress keys */
   onKeystroke?: (char: string) => void;
@@ -65,6 +69,7 @@ function applyClaimMarks(editor: TiptapEditor, claims: DetectedClaim[]) {
 export function Editor({
   documentId,
   initialContent,
+  mode,
   onClaimsDetected,
   onKeystroke,
   onParagraphsChange,
@@ -80,6 +85,7 @@ export function Editor({
       ClaimMark,
       EvidenceMark,
       QuestionMark,
+      IntentMark,
     ],
     immediatelyRender: false,
     editorProps: {
@@ -160,13 +166,15 @@ export function Editor({
         }
       });
       if (onParagraphsChange) onParagraphsChange(paragraphs);
-      debouncedDetectAll(paragraphs);
+      if (mode === 'researcher') {
+        debouncedDetectAll(paragraphs);
+      }
     };
     editor.on('update', handler);
     return () => {
       editor.off('update', handler);
     };
-  }, [editor, debouncedDetectAll]);
+  }, [editor, debouncedDetectAll, mode, onKeystroke, onParagraphsChange]);
 
   return (
     <div className="relative">

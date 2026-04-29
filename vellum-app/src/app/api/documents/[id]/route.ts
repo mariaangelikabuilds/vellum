@@ -13,6 +13,8 @@ const PatchBody = z.object({
   proseText: z.string().max(500_000).optional(),
   tags: z.array(z.string().max(40)).max(20).optional(),
   published: z.boolean().optional(),
+  mode: z.enum(['researcher', 'freeform']).optional(),
+  intent: z.string().max(500).nullable().optional(),
 });
 
 export async function GET(

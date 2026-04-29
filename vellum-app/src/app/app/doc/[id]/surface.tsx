@@ -13,25 +13,51 @@ import type { TabId } from '@/components/editor/SidePane';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 import { toast } from 'sonner';
 
+type Mode = 'researcher' | 'freeform';
+
 export function DocumentSurface({
   documentId,
   initialProseText,
   initialTitle,
   initialTags,
   initialPublished,
+  initialMode,
+  initialIntent,
 }: {
   documentId: string;
   initialProseText?: string;
   initialTitle: string;
   initialTags: string[];
   initialPublished: boolean;
+  initialMode: Mode;
+  initialIntent: string;
 }) {
   const [refreshKey, setRefreshKey] = useState(0);
   const [lastChar, setLastChar] = useState('');
   const [pressTick, setPressTick] = useState(0);
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [editorInstance, setEditorInstance] = useState<TiptapEditor | null>(null);
-  const [tab, setTab] = useState<TabId>('marks');
+  const [mode, setMode] = useState<Mode>(initialMode);
+  const [intent, setIntent] = useState(initialIntent);
+  const [tab, setTab] = useState<TabId>(initialMode === 'freeform' ? 'intent' : 'marks');
+
+  const persistMode = async (next: Mode) => {
+    setMode(next);
+    setTab(next === 'freeform' ? 'intent' : 'marks');
+    await fetch(`/api/documents/${documentId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: next }),
+    });
+  };
+
+  const debouncedSaveIntent = useDebounce(async (value: string) => {
+    await fetch(`/api/documents/${documentId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ intent: value || null }),
+    });
+  }, 800);
 
   // debounced PATCH of proseText so the public viewer + search read fresh content
   const debouncedSaveProse = useDebounce(async (proseText: string) => {
@@ -55,6 +81,8 @@ export function DocumentSurface({
         initialTags={initialTags}
         initialPublished={initialPublished}
         paragraphs={paragraphs}
+        mode={mode}
+        onModeChange={persistMode}
       />
 
       {/* mobile / tablet: writing serious essays on a phone is a bad idea — show a clean notice instead */}
@@ -82,9 +110,29 @@ export function DocumentSurface({
         <div className="flex h-full flex-col overflow-hidden">
           {/* the writing canvas — only this scrolls */}
           <div className="flex-1 overflow-y-auto">
+            {mode === 'freeform' && (
+              <div className="border-b border-rule bg-canvas-2 px-8 py-4">
+                <label className="block">
+                  <span className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-ink-3">
+                    intent
+                  </span>
+                  <input
+                    type="text"
+                    value={intent}
+                    onChange={(e) => {
+                      setIntent(e.target.value);
+                      debouncedSaveIntent(e.target.value);
+                    }}
+                    placeholder="What is this writing meant to do? One sentence."
+                    className="w-full border-b border-transparent bg-transparent px-0 py-1 font-serif text-base italic text-ink placeholder:text-ink-3 hover:border-rule focus:border-rule-strong focus:outline-none"
+                  />
+                </label>
+              </div>
+            )}
             <Editor
               documentId={documentId}
               initialContent={initialProseText}
+              mode={mode}
               onClaimsDetected={() => setRefreshKey((k) => k + 1)}
               onKeystroke={(char) => {
                 setLastChar(char);
@@ -114,6 +162,9 @@ export function DocumentSurface({
           paragraphs={paragraphs}
           tab={tab}
           setTab={setTab}
+          mode={mode}
+          intent={intent}
+          editor={editorInstance}
         />
       </div>
 

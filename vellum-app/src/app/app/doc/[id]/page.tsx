@@ -25,6 +25,8 @@ export default async function DocumentPage({
         initialTags={doc.tags ?? []}
         initialPublished={doc.published ?? false}
         initialProseText={doc.proseText ?? ''}
+        initialMode={(doc.mode as 'researcher' | 'freeform') ?? 'researcher'}
+        initialIntent={doc.intent ?? ''}
       />
     </main>
   );

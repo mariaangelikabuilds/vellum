@@ -3,7 +3,9 @@
     "allow": [
       "WebSearch",
       "Bash(npx pnpm@10.33.2 db:generate)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(npx tsc *)",
+      "Bash(npx pnpm@10.33.2 build)"
     ]
   }
 }
