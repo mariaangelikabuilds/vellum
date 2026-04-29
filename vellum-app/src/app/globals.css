@@ -110,52 +110,62 @@ body {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-/* Vellum editor marks — editorial register, no AI tropes */
-.claim {
+/* Vellum editor marks, editorial register, colored highlights only.
+   Both researcher and freeform modes use background washes (not underlines)
+   to keep the page legible like marker on parchment. */
+.claim, .evidence, .intent {
   cursor: help;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  border-radius: 1px;
+  padding: 0 2px;
+  margin: 0 -1px;
+  transition: background-color 150ms ease;
 }
 .claim[data-claim-type="factual"] {
-  text-decoration-color: var(--ink-3);
-  text-decoration-style: solid;
+  background: #fafaf9; /* stone-50, neutral */
 }
 .claim[data-claim-type="opinion"] {
-  text-decoration-color: var(--ink-3);
-  text-decoration-style: dotted;
+  background: #f5f5f4; /* stone-100 */
   font-style: italic;
 }
 .claim[data-claim-type="speculation"] {
-  text-decoration-color: var(--ink-3);
-  text-decoration-style: dashed;
+  background: #f5f5f4;
 }
 .claim[data-claim-type="evidence"] {
-  text-decoration-color: var(--ink);
-  text-decoration-thickness: 2px;
+  background: #f0f9ff; /* sky-50, citing/sourced */
 }
 .claim[data-claim-type="question"] {
-  text-decoration-color: var(--ink-3);
-  text-decoration-style: dashed;
+  background: #faf5ff; /* violet-50, querying */
   font-style: italic;
 }
-.claim--contradicted {
-  background: #fef3c7;
-  text-decoration-color: #b45309;
-  text-decoration-thickness: 2px;
-}
 .claim--verified {
-  text-decoration-color: var(--ink);
-  text-decoration-thickness: 2px;
+  background: #ecfdf5; /* emerald-50, confirmed true */
+}
+.claim--contradicted {
+  background: #fef2f2; /* rose-50, conflict */
 }
 .evidence {
-  text-decoration: underline;
-  text-decoration-color: var(--ink-3);
-  text-underline-offset: 4px;
+  background: #f0f9ff; /* sky-50 */
 }
 .question {
   font-style: italic;
   color: var(--ink-2);
+  background: #faf5ff;
+}
+
+/* Freeform mode: intent-coherence marks. Same highlight pattern as
+   researcher claims, parallel four-color palette. Each describes
+   what the sentence does relative to the writer's stated intent. */
+.intent--miss {
+  background: #f5f5f4; /* stone-100, line is dead */
+}
+.intent--bury {
+  background: #fef2f2; /* rose-50, line buries the real thing */
+}
+.intent--drift {
+  background: #fef3c7; /* amber-100, line is off-key */
+}
+.intent--land {
+  background: #ecfdf5; /* emerald-50, line lands */
 }
 .prose-vellum p {
   margin: 0 0 1.25rem;
