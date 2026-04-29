@@ -36,11 +36,11 @@ When a user creates or opens a freeform doc:
    - **Haiku** does the first pass. Flags passages that don't carry the intent.
    - **Sonnet** verifies the higher-stakes calls (drift, miss, lands).
 
-3. **Four mark types** in freeform mode:
-   - `<flat>`, line is technically correct but doesn't *do* what the intent said
-   - `<hedge>`, softening language that buries the real thing ("I just wanted to maybe...")
+3. **Four mark types** in freeform mode (each describes what the sentence *does*, parallel verb forms):
+   - `<miss>`, line is technically correct but doesn't *do* what the intent said
+   - `<bury>`, softening or burying the real thing ("I just wanted to maybe..."). Echoes the copy-desk idiom "buries the lede".
    - `<drift>`, tonal mismatch with the declared register (cold line in tender piece)
-   - `<lands>`, line *does* hit the intent (positive mark, celebrates, doesn't just correct)
+   - `<land>`, line *does* hit the intent (positive mark, celebrates, doesn't just correct)
 
 4. **Voice tab** in the right rail (replaces Marks/Map/Critique tabs). Lists flagged passages with the AI's read of why each one misses, plus a suggested rewrite.
 

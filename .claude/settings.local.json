@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx pnpm@10.33.2 db:generate)",
+      "Bash(npx tsx *)"
     ]
   }
 }

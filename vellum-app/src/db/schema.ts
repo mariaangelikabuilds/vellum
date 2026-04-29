@@ -55,6 +55,12 @@ export const documents = pgTable(
       .notNull(),
     authorUserId: uuid('author_user_id').references(() => users.id, { onDelete: 'set null' }),
     title: text('title').notNull().default('Untitled'),
+    /** which lens the document is read through. researcher = claim/evidence/contradiction
+        detection; freeform = intent-coherence detection (miss/bury/drift/land marks). */
+    mode: text('mode').notNull().default('researcher'),
+    /** for freeform documents only: the one-sentence statement of what the writing is
+        meant to do. AI reads the draft against this. */
+    intent: text('intent'),
     /** plaintext snapshot of the prose; persisted on debounced save so the public viewer
         and search can read without hydrating Yjs */
     proseText: text('prose_text').default(''),

@@ -47,6 +47,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
+  // Freeform docs use intent-coherence detection, not claim detection.
+  // Return an empty claim set so the client treats this as a no-op.
+  if (doc.mode === 'freeform') {
+    return NextResponse.json({ claims: [] });
+  }
+
   const orgId = user.orgId ?? doc.orgId;
   const paragraphs = 'paragraph' in parsed.data ? [parsed.data.paragraph] : parsed.data.paragraphs;
   const replace = 'replace' in parsed.data ? parsed.data.replace : false;
