@@ -47,14 +47,14 @@ export async function POST(
   }
 
   // Read sender from env. In production this MUST be a verified-domain address
-  // (e.g. mail@vellum.dev). Falls back to Resend's dev sender for local
+  // (e.g. mail@penstroke.app). Falls back to Resend's dev sender for local
   // development so nobody hits a 500 in setup; logs a warning so the gap is
   // visible in observability when broadcasting from prod with the fallback.
-  const fromAddress = process.env.VELLUM_FROM_EMAIL;
-  const from = fromAddress ?? 'Vellum <onboarding@resend.dev>';
+  const fromAddress = process.env.PENSTROKE_FROM_EMAIL ?? process.env.VELLUM_FROM_EMAIL;
+  const from = fromAddress ?? 'Penstroke <onboarding@resend.dev>';
   if (!fromAddress) {
     console.warn(
-      'broadcast: VELLUM_FROM_EMAIL not set — using onboarding@resend.dev which Resend treats as dev sender. Verify a domain in Resend dashboard for production.',
+      'broadcast: PENSTROKE_FROM_EMAIL not set, using onboarding@resend.dev which Resend treats as dev sender. Verify a domain in Resend dashboard for production.',
     );
   }
 
@@ -109,7 +109,7 @@ function renderEssayEmailHtml({
   return `<!doctype html>
 <html><body style="margin:0;padding:24px;background:#fafafa;font-family:Georgia,serif">
 <div style="max-width:640px;margin:0 auto;background:#fff;padding:32px;border:1px solid #e5e5e5">
-  <p style="font:11px/1 ui-monospace,monospace;color:#a3a3a3;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 24px">verified essay · vellum</p>
+  <p style="font:11px/1 ui-monospace,monospace;color:#a3a3a3;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 24px">verified essay · penstroke</p>
   <h1 style="font:32px/1.2 Georgia,serif;color:#0a0a0a;margin:0 0 24px">${escape(title)}</h1>
   ${paragraphs}
   <p style="border-top:1px solid #e5e5e5;padding-top:16px;margin-top:32px;font:12px/1.4 ui-monospace,monospace;color:#a3a3a3">

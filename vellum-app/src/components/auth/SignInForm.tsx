@@ -87,7 +87,7 @@ export function SignInForm() {
     <form onSubmit={onSubmit} noValidate className="w-full max-w-sm">
       <header className="mb-8">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-ink-3">
-          vellum · sign in
+          penstroke · sign in
         </p>
         <h1 className="font-serif text-3xl leading-tight tracking-tight text-ink">
           Welcome back.

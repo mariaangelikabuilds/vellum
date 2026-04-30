@@ -33,7 +33,7 @@ export default async function AppPage() {
   return (
     <main className="min-h-screen bg-canvas">
       <header className="flex items-center justify-between border-b border-rule px-6 py-4">
-        <h1 className="font-mono text-lg">vellum</h1>
+        <h1 className="font-mono text-lg">penstroke</h1>
         <div className="flex items-center gap-4">
           <OrganizationSwitcher
             hidePersonal

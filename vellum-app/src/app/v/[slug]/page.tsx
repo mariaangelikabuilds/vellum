@@ -52,7 +52,7 @@ export default async function PublicViewer({
       <nav className="border-b border-rule px-5 py-4 sm:px-8 sm:py-5">
         <div className="mx-auto flex max-w-3xl items-baseline justify-between">
           <Link href="/" className="font-mono text-sm tracking-wide text-ink hover:text-ink-2">
-            vellum
+            penstroke
           </Link>
           <span className="font-mono text-xs uppercase tracking-widest text-ink-3">
             verified essay
@@ -68,7 +68,7 @@ export default async function PublicViewer({
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 font-mono text-xs text-ink-3">
             {authorEmail && <span>by {authorEmail}</span>}
             <span>·</span>
-            <span>verified by vellum on {new Date(doc.updatedAt).toISOString().slice(0, 10)}</span>
+            <span>verified by penstroke on {new Date(doc.updatedAt).toISOString().slice(0, 10)}</span>
             <span>·</span>
             <span>
               {claims.length} mark{claims.length === 1 ? '' : 's'}

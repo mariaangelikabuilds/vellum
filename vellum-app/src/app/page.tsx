@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <nav className="flex items-center justify-between border-b border-rule px-5 py-4 sm:px-8 sm:py-5">
-        <span className="font-mono text-sm tracking-wide">vellum</span>
+        <span className="font-mono text-sm tracking-wide">penstroke</span>
         <div className="flex items-center gap-3 font-mono text-xs text-ink-2 sm:gap-6">
           <Link href="/architecture" className="hidden hover:text-ink sm:inline">
             architecture
@@ -47,10 +47,10 @@ export default async function Home() {
           <h1 className="mb-6 font-serif text-[2rem] leading-[1.1] tracking-[-0.015em] sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.05]">
             Most AI writing tools polish prose.
             <br />
-            <em className="not-italic text-ink-2">Vellum sees the structure of an argument.</em>
+            <em className="not-italic text-ink-2">Penstroke sees the structure of an argument.</em>
           </h1>
           <p className="max-w-2xl font-serif text-base leading-[1.55] text-ink-2 sm:text-lg lg:text-xl">
-            As you write, Vellum marks every load-bearing sentence as a node in a typed graph.
+            As you write, Penstroke marks every load-bearing sentence as a node in a typed graph.
             Every citation becomes an edge. A background agent fleet checks each mark against your
             bibliography and the open web, flagging unsupported assertions, contradictions across
             paragraphs, and missing premises before you ship.
@@ -60,7 +60,7 @@ export default async function Home() {
         <section className="mb-20">
           <TypewriterScene />
           <p className="mt-3 text-center font-mono text-xs uppercase tracking-widest text-ink-3">
-            live · vellum is doing this right now
+            live · penstroke is doing this right now
           </p>
         </section>
 

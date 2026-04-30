@@ -92,7 +92,7 @@ export function DocumentSurface({
             best on desktop
           </p>
           <h2 className="mb-3 font-serif text-2xl leading-snug text-ink">
-            Vellum&rsquo;s editor wants a wider canvas.
+            Penstroke&rsquo;s editor wants a wider canvas.
           </h2>
           <p className="mb-4 font-serif text-sm leading-relaxed text-ink-2">
             The claim graph, the writing surface, and the typewriter live side-by-side. They need

@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 import { withSentryConfig } from '@sentry/nextjs';
 
 const nextConfig: NextConfig = {
-  // Vellum-specific Next.js config goes here.
+  // Penstroke-specific Next.js config goes here.
 };
 
 export default withSentryConfig(nextConfig, {

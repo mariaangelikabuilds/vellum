@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Vellum · architecture',
-  description: 'How Vellum is built — Apache AGE on Postgres, Yjs CRDT, two-tier model routing, eval-gated CI.',
+  title: 'Penstroke · architecture',
+  description: 'How Penstroke is built. Apache AGE on Postgres, Yjs CRDT, two-tier model routing, eval-gated CI.',
 };
 
 export default function ArchitecturePage() {
@@ -11,7 +11,7 @@ export default function ArchitecturePage() {
       <nav className="border-b border-rule px-5 py-4 sm:px-8 sm:py-5">
         <div className="mx-auto flex max-w-3xl items-baseline justify-between">
           <Link href="/" className="font-mono text-sm tracking-wide text-ink hover:text-ink-2">
-            vellum
+            penstroke
           </Link>
           <span className="font-mono text-xs uppercase tracking-widest text-ink-3">
             architecture

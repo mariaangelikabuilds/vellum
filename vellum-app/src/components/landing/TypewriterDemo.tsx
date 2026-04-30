@@ -24,7 +24,7 @@ interface ContradictionMarker {
 
 const SCRIPT_TEXT = [
   'Most AI writing tools polish prose. ',
-  'But Vellum sees the structure of an argument. ',
+  'But Penstroke sees the structure of an argument. ',
   'Clearbrief raised $5M in 2024 to bring legal-grade citation tracking to writing software. ',
   'The gap is closing fast. ',
   'But maybe the gap is not closing at all — most AI tools still cannot reason across paragraphs. ',
@@ -38,14 +38,14 @@ const CLAIMS: ClaimRange[] = (() => {
     return { start: i, end: i + needle.length };
   };
   const a = find('AI writing tools polish prose');
-  const b = find('Vellum sees the structure of an argument');
+  const b = find('Penstroke sees the structure of an argument');
   const c = find('Clearbrief raised $5M in 2024');
   const d = find('The gap is closing fast');
   const e = find('the gap is not closing at all');
   const f = find('Will eval-gated CI become standard by 2027');
   return [
     { ...a, type: 'factual', confidence: 0.78, label: 'AI tools polish prose' },
-    { ...b, type: 'factual', confidence: 0.84, label: 'Vellum sees argument structure' },
+    { ...b, type: 'factual', confidence: 0.84, label: 'Penstroke sees argument structure' },
     { ...c, type: 'factual', confidence: 0.91, label: 'Clearbrief raised $5M in 2024' },
     { ...d, type: 'opinion', confidence: 0.72, label: 'gap is closing fast' },
     { ...e, type: 'opinion', confidence: 0.74, label: 'gap is not closing at all' },
@@ -163,7 +163,7 @@ export function TypewriterDemo() {
       {/* editor column */}
       <div className="relative bg-canvas">
         <div className="border-b border-rule px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-ink-3">
-          essay · vellum
+          essay · penstroke
         </div>
 
         {contradictionVisible && (

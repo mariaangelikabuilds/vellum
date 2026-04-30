@@ -28,7 +28,7 @@ interface ContradictionMarker {
 
 const SCRIPT_TEXT = [
   'Most AI writing tools polish prose. ',
-  'But Vellum sees the structure of an argument. ',
+  'But Penstroke sees the structure of an argument. ',
   'Clearbrief raised $5M in 2024 to bring legal-grade citation tracking to writing software. ',
   'The gap is closing fast. ',
   'But maybe the gap is not closing at all — most tools still cannot reason across paragraphs. ',
@@ -42,7 +42,7 @@ const CLAIMS: ClaimRange[] = (() => {
   };
   return [
     { ...find('AI writing tools polish prose'), type: 'factual', confidence: 0.78, label: 'AI tools polish prose' },
-    { ...find('Vellum sees the structure of an argument'), type: 'factual', confidence: 0.84, label: 'Vellum sees argument structure' },
+    { ...find('Penstroke sees the structure of an argument'), type: 'factual', confidence: 0.84, label: 'Penstroke sees argument structure' },
     { ...find('Clearbrief raised $5M in 2024'), type: 'factual', confidence: 0.91, label: 'Clearbrief raised $5M in 2024' },
     { ...find('The gap is closing fast'), type: 'opinion', confidence: 0.72, label: 'gap is closing fast' },
     { ...find('the gap is not closing at all'), type: 'opinion', confidence: 0.74, label: 'gap is not closing at all' },
@@ -131,7 +131,7 @@ export function TypewriterScene() {
         {/* paper column */}
         <div className="relative bg-canvas">
           <div className="border-b border-rule px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-ink-3">
-            essay · vellum
+            essay · penstroke
           </div>
 
           {contradictionVisible && (

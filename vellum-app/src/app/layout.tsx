@@ -29,8 +29,8 @@ const libreFranklin = Libre_Franklin({
 });
 
 export const metadata: Metadata = {
-  title: "Vellum",
-  description: "A graph-of-claims word processor for essayists, analysts, and longform writers.",
+  title: "Penstroke",
+  description: "A word processor that asks two questions. Researcher mode: are these claims true? Freeform mode: is this draft true to what I meant?",
 };
 
 export default function RootLayout({

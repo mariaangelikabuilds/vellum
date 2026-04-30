@@ -86,7 +86,7 @@ export function SourcesTab({ documentId }: { documentId: string }) {
 
       {sources.length === 0 ? (
         <p className="font-serif text-sm text-ink-3">
-          no sources yet. paste any URL — Vellum fetches the page, embeds it via Voyage, and the
+          no sources yet. paste any URL. Penstroke fetches the page, embeds it via Voyage, and the
           verifier can cite from it.
         </p>
       ) : (

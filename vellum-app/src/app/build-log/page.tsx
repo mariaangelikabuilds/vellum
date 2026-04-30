@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Vellum · build log',
+  title: 'Penstroke · build log',
   description: 'Daily-ish build notes — what shipped, what was hard, what Claude Code helped with.',
 };
 
@@ -45,7 +45,7 @@ export default function BuildLogPage() {
       <nav className="border-b border-rule px-5 py-4 sm:px-8 sm:py-5">
         <div className="mx-auto flex max-w-3xl items-baseline justify-between">
           <Link href="/" className="font-mono text-sm tracking-wide text-ink hover:text-ink-2">
-            vellum
+            penstroke
           </Link>
           <span className="font-mono text-xs uppercase tracking-widest text-ink-3">
             build log
