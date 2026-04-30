@@ -35,6 +35,12 @@ export default async function AppPage() {
       <header className="flex items-center justify-between border-b border-rule px-6 py-4">
         <h1 className="font-mono text-lg">penstroke</h1>
         <div className="flex items-center gap-4">
+          <Link
+            href="/app/profile"
+            className="font-mono text-xs uppercase tracking-widest text-ink-2 hover:text-ink"
+          >
+            profile
+          </Link>
           <OrganizationSwitcher
             hidePersonal
             appearance={{

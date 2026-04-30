@@ -16,7 +16,13 @@
       "Bash(vercel project *)",
       "Bash(vercel domains *)",
       "Bash(vercel env *)",
-      "Bash(vercel ls *)"
+      "Bash(vercel ls *)",
+      "Bash(node -e \"console.log\\(JSON.parse\\(require\\('fs'\\).readFileSync\\('C:/Users/Angel/AppData/Roaming/com.vercel.cli/Data/auth.json','utf8'\\)\\).token\\)\")",
+      "Bash(curl -s -H 'Authorization: Bearer __TRACKED_VAR__' 'https://api.vercel.com/v2/teams?slug=__TRACKED_VAR__')",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" -L --max-time 10 \"https://penstroke.vercel.app/\")",
+      "Bash(npx pnpm@10.33.2 add -D vitest @vitejs/plugin-react happy-dom @testing-library/react @testing-library/jest-dom @testing-library/user-event)",
+      "Bash(npx pnpm@10.33.2 test src/components/profile/ProfileCard.test.tsx)",
+      "Bash(npx pnpm@10.33.2 test)"
     ]
   }
 }
