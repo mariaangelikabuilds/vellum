@@ -9,7 +9,7 @@ pnpm add stripe @stripe/stripe-js
 ## Step 2 — Stripe dashboard setup
 
 1. Create account at https://stripe.com (use TEST mode for dev).
-2. Products → create your project's product (e.g. "Vellum Pro").
+2. Products → create your project's product (e.g. "Penstroke Pro").
 3. Price → recurring monthly subscription at $X/seat.
 4. (If usage-metered) add a metered price: per-call billing at $Y per use.
 5. Copy keys: **Publishable** (pk_test_...) and **Secret** (sk_test_...).

@@ -19,14 +19,14 @@
 
 ## 2026-04-25 · Phase 0 · Decision committed
 
-- Decision: building Vellum as the hero portfolio project.
+- Decision: building Penstroke as the hero portfolio project.
 - Hero repo scaffolded at `C:\Users\Angel\projects-build\vellum\`.
 - BUILD.md is the literal end-to-end guide; following it section by section.
 - Goal: v1 in ~5 weeks of focused build interleaved with interviewing.
 - Target ship: week of 2026-05-30.
 - First Claude Code session in this repo: tomorrow (Phase 1 + 2 — prerequisites verification + Next.js base setup).
 
-Why Vellum (vs. Loom / Copy Audit / Bindery / Canon / Polyglot):
+Why Penstroke (vs. Loom / Copy Audit / Bindery / Canon / Polyglot):
 - Maximum load-bearing design surface (custom ProseMirror schema + side-pane viz).
 - Senior architecture crown (CRDT + AGE + two-tier routing + eval-gated deploys).
 - I am the user (long-form writer; iteration feedback comes from my own drafting).
@@ -77,7 +77,7 @@ Each one took 3-15 minutes to diagnose + fix. The case-study story: shipped desp
 - File scaffolding for repetitive Drizzle table definitions, mark extensions, and API route handlers
 - Diagnosing the AGE search_path issue from a single 'function cypher does not exist' error
 - Catching the dotenv-import-order bug in seed.ts (Pool initialized before .env.local loaded → ECONNREFUSED)
-- Generating the Vellum-specific eval gold set with realistic essay-style claims
+- Generating the Penstroke-specific eval gold set with realistic essay-style claims
 - Drafting DEPLOY.md from BUILD.md Section 9 plus the Cloudflare worker scope-cut
 
 ### Eval / cost deltas

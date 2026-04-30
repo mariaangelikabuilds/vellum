@@ -16,7 +16,7 @@ async function main() {
 
   const paragraphs = [
     'The current generation of AI writing tools is text-shaped — they polish prose but cannot see the structure of an argument.',
-    'Maybe Vellum will eventually solve this on its own, but it depends on whether the underlying CRDT work is too expensive.',
+    'Maybe Penstroke will eventually solve this on its own, but it depends on whether the underlying CRDT work is too expensive.',
     'Clearbrief raised $5M in 2024 according to Crunchbase. Is the gap because of inference costs?',
   ];
 

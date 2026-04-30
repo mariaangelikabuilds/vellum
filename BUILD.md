@@ -1,4 +1,4 @@
-# Vellum — build guide
+# Penstroke — build guide
 
 > A graph-of-claims word processor for essayists, analysts, and longform writers. Every sentence with a claim is a node, every citation is an edge, and a background agent continuously checks for unsupported claims, contradictions, and missing evidence as you write.
 
@@ -29,7 +29,7 @@ This is the literal copy-pasteable end-to-end build. Phases progress from prereq
 
 See `./docs/build-shared/00-prerequisites.md` for: Node + pnpm + git + GitHub CLI + service accounts (Vercel, Neon, Clerk, Stripe, Anthropic, Voyage, Resend, Sentry, Langfuse, Braintrust, GitHub, Cloudflare, Trigger.dev).
 
-**Vellum-specific accounts you'll also need:**
+**Penstroke-specific accounts you'll also need:**
 
 - **Exa** — https://exa.ai/ — semantic web search for verification. ~$0.005/query starter.
 - **Voyage AI** — https://www.voyageai.com/ — embeddings for retrieval. $0.12/Mtok on `voyage-3-large`.
@@ -49,7 +49,7 @@ Follow `./docs/build-shared/01-base-setup.md` exactly. After it completes you ha
 
 **Repo name:** `vellum-app` (kebab-case).
 
-**Vellum-specific tweaks to the base:**
+**Penstroke-specific tweaks to the base:**
 
 Install editor + CRDT + graph dependencies up front:
 
@@ -65,7 +65,7 @@ pnpm add @tiptap/react @tiptap/starter-kit @tiptap/extension-collaboration \
 pnpm add -D drizzle-kit dotenv tsx
 ```
 
-Add custom shadcn components Vellum will need:
+Add custom shadcn components Penstroke will need:
 
 ```bash
 pnpm dlx shadcn@latest add card dialog popover tooltip toast separator scroll-area
@@ -75,9 +75,9 @@ pnpm dlx shadcn@latest add card dialog popover tooltip toast separator scroll-ar
 
 ## 3. Database & data model
 
-Follow `./docs/build-shared/02-database-postgres.md` for Neon + Drizzle. Then come back here for the project-specific Vellum schema.
+Follow `./docs/build-shared/02-database-postgres.md` for Neon + Drizzle. Then come back here for the project-specific Penstroke schema.
 
-Vellum's data lives in three places:
+Penstroke's data lives in three places:
 1. **Relational tables** in Postgres (users, orgs, documents, revisions, bibliography, embeddings).
 2. **Graph vertices and edges** in Apache AGE (claim graph layer).
 3. **Yjs CRDT state** stored as a binary blob per-revision.
@@ -91,7 +91,7 @@ CREATE EXTENSION IF NOT EXISTS age;
 LOAD 'age';
 SET search_path = ag_catalog, "$user", public;
 
--- Create the graph (one per Vellum instance; documents live as subgraphs)
+-- Create the graph (one per Penstroke instance; documents live as subgraphs)
 SELECT create_graph('vellum_claims');
 ```
 
@@ -406,7 +406,7 @@ pnpm db:seed
 
 Follow `./docs/build-shared/03-auth-clerk.md` for the Clerk setup with org mode + webhook sync.
 
-**Vellum-specific:** Documents are owned by the *user* but scoped to the *org*. Multiple users in the same org share access to the org's documents (collab is v2; v1 is single-user-but-multi-tenant-ready).
+**Penstroke-specific:** Documents are owned by the *user* but scoped to the *org*. Multiple users in the same org share access to the org's documents (collab is v2; v1 is single-user-but-multi-tenant-ready).
 
 ---
 
@@ -414,7 +414,7 @@ Follow `./docs/build-shared/03-auth-clerk.md` for the Clerk setup with org mode 
 
 Follow `./docs/build-shared/04-billing-stripe.md` for Stripe + metered usage.
 
-**Vellum-specific pricing:**
+**Penstroke-specific pricing:**
 
 - **Free:** 1 document, 100 claims/month, no verification.
 - **Pro · $19/mo:** unlimited docs, unlimited claims, full verification.
@@ -449,7 +449,7 @@ Call this from every agent invocation (see section 6).
 
 ## 6. AI integration · agent fleet
 
-Follow `./docs/build-shared/05-ai-anthropic.md` for the Anthropic SDK setup. Then build Vellum's three agents.
+Follow `./docs/build-shared/05-ai-anthropic.md` for the Anthropic SDK setup. Then build Penstroke's three agents.
 
 ### 6.1 Shared client · `src/ai/client.ts`
 
@@ -822,7 +822,7 @@ await verifyDocument.trigger({ documentId, orgId });
 
 ### Senior callouts on the agent fleet
 
-- **Two-tier model routing.** Haiku is ~$0.001/call for claim-detection (high frequency); Sonnet is ~$0.012-0.018/call for verification (low frequency, high value). Mixing models is the cost discipline that keeps Vellum profitable.
+- **Two-tier model routing.** Haiku is ~$0.001/call for claim-detection (high frequency); Sonnet is ~$0.012-0.018/call for verification (low frequency, high value). Mixing models is the cost discipline that keeps Penstroke profitable.
 - **Prompt caching on system prompts.** All three agents have stable system prompts cached at $0.30/Mtok read vs $3/Mtok cold. After first call within 5min, subsequent calls cost ~10% as much.
 - **Tool use for verification.** The verifier doesn't generate prose; it calls tools (`search_bibliography`, `search_web`, `mark_supported`, `mark_contradicted`). The agent decides WHAT to do; your handlers decide HOW.
 - **Iteration cap.** Each agent has a hard cap (8 iterations). Runaway agents are a real failure mode; caps make cost knowable.
@@ -1043,9 +1043,9 @@ export default async function DocumentPage({ params }: { params: Promise<{ id: s
 
 Follow `./docs/build-shared/06-evals-braintrust.md` for the harness scaffold.
 
-### 8.1 Vellum-specific eval rubric
+### 8.1 Penstroke-specific eval rubric
 
-Vellum evals run against three datasets:
+Penstroke evals run against three datasets:
 
 1. **claim-detection.jsonl** — paragraphs with hand-labeled claims.
 2. **contradiction-detection.jsonl** — pairs of claims with hand-labeled contradiction status.
@@ -1134,7 +1134,7 @@ jobs:
 ```typescript
 import { initLogger } from 'braintrust';
 
-const logger = initLogger({ projectName: 'vellum' });
+const logger = initLogger({ projectName: 'penstroke' });
 const baseline = { claim_count_match: 0.85, type_match: 0.85, confidence_above_min: 0.75 };
 const TOLERANCE = 0.05;
 
@@ -1164,7 +1164,7 @@ Whenever you find a real-user-flagged failure, paste it to Claude Code:
 
 Follow `./docs/build-shared/07-deploy-vercel.md` for prod deploy.
 
-**Vellum-specific env vars:**
+**Penstroke-specific env vars:**
 
 ```
 ANTHROPIC_API_KEY
@@ -1268,7 +1268,7 @@ If after all four cuts you still can't ship, the project's not ready — go back
 
 ## Claude Code workflow throughout this build
 
-See `./docs/build-shared/08-claude-code-workflow.md` for the general pattern and `projects/vellum/workflow.md` for Vellum-specific prompt examples.
+See `./docs/build-shared/08-claude-code-workflow.md` for the general pattern and `projects/vellum/workflow.md` for Penstroke-specific prompt examples.
 
 The headline: **you make every architectural decision; CC writes every line of code that follows from those decisions.** The case-study story is how you delegated boilerplate, repetitive refactors, and eval scaffolding to CC; reserved system design and product shaping for yourself; and shipped at 3-person-team scope as a result.
 

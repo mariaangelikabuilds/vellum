@@ -1,6 +1,6 @@
 # vellum-app
 
-Next.js 16 application code for the [Vellum](../README.md) hero project.
+Next.js 16 application code for the [Penstroke](../README.md) hero project.
 The repo root has the case study; this subdir has the running code.
 
 ## Stack

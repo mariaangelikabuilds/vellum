@@ -143,7 +143,7 @@ Demo section gets a freeform vignette: write a flat birthday card, declare an in
 ## Out of scope for this design
 
 - Auth migration (separate plan, blocked on domain decision).
-- Codebase rename from "Vellum" (separate plan, blocked on brand decision).
+- Codebase rename from "Penstroke" (separate plan, blocked on brand decision).
 - Researcher-mode v1.6 security batch (paused while freeform ships).
 - Multi-language freeform support (English-only for MVP).
 - Voice cloning or per-user voice fingerprinting (Phase 3+ if pursued).

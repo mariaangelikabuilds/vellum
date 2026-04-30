@@ -1,4 +1,4 @@
-# Vellum — decision log
+# Penstroke — decision log
 
 > Why each load-bearing technical choice was made. Updated as decisions get made.
 > Pattern per entry: **decision · what I considered · why I picked it · when I'd revisit.**
@@ -11,7 +11,7 @@
 
 **Picked:** Azure Postgres Flexible Server, B1ms tier, free for 12 months.
 
-**Why:** Mid-Section-3, I discovered Neon does not support the Apache AGE extension (verified via Neon docs and a community thread). AGE is the architectural spine of Vellum — graph traversals on the same database as relational queries and pgvector retrieval, single transactional consistency boundary. Without AGE the case-study story collapses. Azure Flexible Server is the only mainstream managed Postgres that allow-lists AGE 1.6.0 across versions 14-18.
+**Why:** Mid-Section-3, I discovered Neon does not support the Apache AGE extension (verified via Neon docs and a community thread). AGE is the architectural spine of Penstroke — graph traversals on the same database as relational queries and pgvector retrieval, single transactional consistency boundary. Without AGE the case-study story collapses. Azure Flexible Server is the only mainstream managed Postgres that allow-lists AGE 1.6.0 across versions 14-18.
 
 **Tradeoff:** Azure has more setup tax than Neon (resource group, server parameters, allow-list step for each extension). The free tier expires after 12 months; at $13/mo the Burstable B1ms is still cheap enough that the architecture wins.
 
@@ -107,7 +107,7 @@
 
 **Picked:** Tiptap v3.
 
-**Why:** Custom marks for `claim` / `evidence` / `question` are the load-bearing schema element. Tiptap's `Mark.create({ addAttributes, parseHTML, renderHTML })` API is exactly the abstraction needed. Yjs collaboration via `@tiptap/extension-collaboration` is wired in two lines. ProseMirror's docs are dense but the underlying primitives (transactions, marks vs nodes, decorations) match Vellum's data model 1:1.
+**Why:** Custom marks for `claim` / `evidence` / `question` are the load-bearing schema element. Tiptap's `Mark.create({ addAttributes, parseHTML, renderHTML })` API is exactly the abstraction needed. Yjs collaboration via `@tiptap/extension-collaboration` is wired in two lines. ProseMirror's docs are dense but the underlying primitives (transactions, marks vs nodes, decorations) match Penstroke's data model 1:1.
 
 **Tradeoff:** Tiptap v3 dropped some v2 features (`StarterKit.history` option, `extension-collaboration-cursor` renamed to `-caret`, `@tiptap/core` is now an explicit dependency rather than transitive). All caught and patched, logged for BUILD.md doc updates.
 
@@ -121,11 +121,11 @@
 
 **Picked:** Newsreader (body, hero, editor surface) + Libre Franklin (chrome — labels, tabs, nav, footer). Geist Mono import retained as fallback for future code blocks; visually unused.
 
-**Why:** Geist Sans reads as generic AI/SaaS chrome. Geist Mono reads as terminal/code aesthetic. Vellum's audience is researchers, journalists, essayists — editorial register, not dev-tool register. Newsreader is designed for screen reading flow; Libre Franklin is the open-source clone of NYT's Franklin Gothic, the actual section-header font of newspaper editorial. The combination is the NYT pairing pattern: serif body, sans-grotesque chrome.
+**Why:** Geist Sans reads as generic AI/SaaS chrome. Geist Mono reads as terminal/code aesthetic. Penstroke's audience is researchers, journalists, essayists — editorial register, not dev-tool register. Newsreader is designed for screen reading flow; Libre Franklin is the open-source clone of NYT's Franklin Gothic, the actual section-header font of newspaper editorial. The combination is the NYT pairing pattern: serif body, sans-grotesque chrome.
 
 **Tradeoff:** Loading two custom fonts vs one (or zero). Acceptable cost on `next/font` with self-hosting. The "no AI" register is non-negotiable for the positioning.
 
-**Revisit when:** Vellum picks up a paid licensing budget — would consider Tiempos Headline (display) + iA Writer Mono (chrome).
+**Revisit when:** Penstroke picks up a paid licensing budget — would consider Tiempos Headline (display) + iA Writer Mono (chrome).
 
 ---
 
@@ -149,7 +149,7 @@
 
 **Picked:** Editorial. No AI tropes. No purple/orange gradients. No glow. No neural-net illustrations. No shimmer animation. No overly futuristic sans. The animated typewriter machine on the hero is a deliberate counter-positioning — it shouts "this is a *writer's tool*" before any text loads.
 
-**Why:** Vellum's positioning depends on differentiating from AI slop. Tools that look like AI products read as AI products. Long-form writers (the audience) want an instrument, not a SaaS subscription.
+**Why:** Penstroke's positioning depends on differentiating from AI slop. Tools that look like AI products read as AI products. Long-form writers (the audience) want an instrument, not a SaaS subscription.
 
 **Tradeoff:** Tighter visual constraints make some screens harder to design (no gradient to add visual interest; must use typography + spacing + layout instead). Worth it.
 

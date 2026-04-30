@@ -1,10 +1,10 @@
-# Vellum
+# Penstroke
 
 > A graph-of-claims word processor for essayists, journalists, and researchers.
 
 [![eval](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml/badge.svg)](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml)
 
-![Vellum hero — typewriter scene with claims appearing live](docs/screenshots/hero.png)
+![Penstroke hero — typewriter scene with claims appearing live](docs/screenshots/hero.png)
 
 *Demo URL pending v1 deploy. Source on this repo. Build log at [`docs/build-log.md`](./docs/build-log.md).*
 
@@ -12,7 +12,7 @@
 
 ## What it is
 
-Most AI writing tools polish prose. Vellum sees the *structure* of an argument.
+Most AI writing tools polish prose. Penstroke sees the *structure* of an argument.
 
 As you write, every sentence with a claim becomes a node in a typed graph. Every citation becomes an edge. A background agent fleet checks each claim against your bibliography and the open web — flagging unsupported assertions, contradictions across paragraphs, and missing premises before you ship.
 
@@ -84,7 +84,7 @@ Full Braintrust dashboard linked from CI runs. Eval task: [`vellum-app/evals/tas
 - **Stripe billing checkout.** Schema + test-mode key are present but no products, no checkout flow. v2 ships paid tiers.
 - **WebSocket relay.** No Cloudflare Worker yet. Yjs runs in-memory only; persistence happens via debounced `proseText` save, not Yjs binary.
 - **Mobile editor.** "Best on desktop" notice on phones/tablets. Reading mode (`/v/[slug]`) is mobile-good. Mobile authoring is v2.
-- **Public Vellum API with rate limiting / auth keys.** A read-only `/api/v1/essays/[id]` exists for published docs; multi-tenant API keys are v2.
+- **Public Penstroke API with rate limiting / auth keys.** A read-only `/api/v1/essays/[id]` exists for published docs; multi-tenant API keys are v2.
 
 This list matters as much as the feature list. Scope discipline = senior signal.
 
@@ -109,7 +109,7 @@ pnpm dev                             # http://localhost:3000
 
 ## How this was built
 
-Vellum was built solo with **Claude Code as pair-programmer**:
+Penstroke was built solo with **Claude Code as pair-programmer**:
 
 - **Architectural decisions** (Neon → Azure for AGE, Yjs vs OT, two-tier routing, no-AI design register) — author's calls.
 - **Boilerplate + repetitive refactors + agent scaffolding + Drizzle table writeups** — delegated to Claude Code.
