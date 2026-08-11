@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { anthropic, MODELS, callCostCents } from '../client';
+import { anthropic, MODELS, callCostCents, shouldCacheSystem } from '../client';
 import { trackAgentCall } from '@/lib/billing/track-usage';
 import { stripFences } from '../lib/strip-fences';
 
@@ -42,7 +42,15 @@ export async function detectClaims(paragraph: string, orgId: string): Promise<Cl
   const response = await anthropic.messages.create({
     model: MODELS.CHEAP,
     max_tokens: 512,
-    system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+    system: [
+      {
+        type: 'text',
+        text: SYSTEM_PROMPT,
+        ...(shouldCacheSystem(MODELS.CHEAP, SYSTEM_PROMPT)
+          ? { cache_control: { type: 'ephemeral' as const } }
+          : {}),
+      },
+    ],
     messages: [{ role: 'user', content: paragraph }],
   });
 

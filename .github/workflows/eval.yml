@@ -33,7 +33,10 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Regression gate
-        # fail the job if scores drop more than 0.05 below baseline.
-        # baseline lives in evals/baseline.json; the gate script is added in v1.5.
-        # for v1, this step is a no-op so the badge can render green on functional runs.
-        run: echo "regression gate not yet wired — see docs/decisions.md"
+        # Scores the gold set and fails this job when any score falls more than
+        # 0.05 below evals/baseline.json. With no baseline committed, the first
+        # run writes one from real scores and passes.
+        run: pnpm eval:gate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

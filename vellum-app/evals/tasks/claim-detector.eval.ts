@@ -2,30 +2,13 @@ import { config } from 'dotenv';
 import { Eval } from 'braintrust';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { SCORERS, type DatasetRow, type DetectedClaim } from '../scorers';
 
 config({ path: '.env.local' });
 
 // braintrust CLI bundles to CJS so import.meta.url is unavailable;
 // resolve from cwd which is the package root when running `pnpm eval`.
 const datasetPath = path.resolve(process.cwd(), 'evals/datasets/claim-detection.jsonl');
-
-interface ExpectedClaim {
-  text: string;
-  type: string;
-  confidence_min: number;
-}
-
-interface DatasetRow {
-  input: string;
-  expected: { claims: ExpectedClaim[] };
-}
-
-interface DetectedClaim {
-  text: string;
-  type: string;
-  confidence: number;
-  position: [number, number];
-}
 
 async function loadDataset(): Promise<DatasetRow[]> {
   const raw = await fs.readFile(datasetPath, 'utf8');
@@ -56,37 +39,21 @@ Eval('vellum-claim-detector-v1', {
   },
   scores: [
     function claim_count_match({ output, expected }) {
-      const expectedCount = (expected as DatasetRow['expected']).claims.length;
       return {
         name: 'claim_count_match',
-        score: (output as DetectedClaim[]).length === expectedCount ? 1 : 0,
+        score: SCORERS.claim_count_match(output as DetectedClaim[], expected as DatasetRow['expected']),
       };
     },
     function type_match({ output, expected }) {
-      const expClaims = (expected as DatasetRow['expected']).claims;
-      const outClaims = output as DetectedClaim[];
-      let matches = 0;
-      for (const exp of expClaims) {
-        const found = outClaims.find(
-          (c) => c.text.toLowerCase().includes(exp.text.toLowerCase().slice(0, 30)) && c.type === exp.type,
-        );
-        if (found) matches++;
-      }
-      return { name: 'type_match', score: expClaims.length === 0 ? 1 : matches / expClaims.length };
+      return {
+        name: 'type_match',
+        score: SCORERS.type_match(output as DetectedClaim[], expected as DatasetRow['expected']),
+      };
     },
     function confidence_above_min({ output, expected }) {
-      const expClaims = (expected as DatasetRow['expected']).claims;
-      const outClaims = output as DetectedClaim[];
-      let matches = 0;
-      for (const exp of expClaims) {
-        const found = outClaims.find((c) =>
-          c.text.toLowerCase().includes(exp.text.toLowerCase().slice(0, 30)),
-        );
-        if (found && found.confidence >= exp.confidence_min) matches++;
-      }
       return {
         name: 'confidence_above_min',
-        score: expClaims.length === 0 ? 1 : matches / expClaims.length,
+        score: SCORERS.confidence_above_min(output as DetectedClaim[], expected as DatasetRow['expected']),
       };
     },
   ],

@@ -4,9 +4,9 @@
 
 [![eval](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml/badge.svg)](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml)
 
-![Penstroke hero — typewriter scene with claims appearing live](docs/screenshots/hero.png)
+![Penstroke architecture](docs/screenshots/architecture.svg)
 
-*Demo URL pending v1 deploy. Source on this repo. Build log at [`docs/build-log.md`](./docs/build-log.md).*
+*Live at [penstroke.vercel.app](https://penstroke.vercel.app). Sign-in needs a Clerk production instance, which needs a custom domain; the marketing, architecture and build-log pages are open. Build log at [`docs/build-log.md`](./docs/build-log.md).*
 
 ---
 
@@ -42,8 +42,8 @@ There are also four selection-driven craft tools: **synonyms** (context-aware), 
 
 - **Yjs CRDT + custom Tiptap/ProseMirror schema** — prose document and claim graph stay in sync via a deterministic projection. Mergeable both directions.
 - **Apache AGE on Postgres** — graph traversals + relational queries + pgvector retrieval in one database. Single transactional consistency boundary; no cross-DB sync.
-- **Two-tier model routing** — Haiku 4.5 for sub-200ms claim-detection (high frequency), Sonnet 4.6 for high-stakes verification with tool use (low frequency). Cost-disciplined.
-- **Eval-gated deploys** — Braintrust nightly regression on claim-detection + contradiction-detection. CI blocks deploys that drop more than 0.05 below baseline.
+- **Two-tier model routing** — Haiku 4.5 for fast claim detection (high frequency), Sonnet 5 for high-stakes verification with tool use (low frequency). Cost-disciplined.
+- **Eval-gated CI** — a 30-case hand-labelled gold set scores claim detection against the live model and the real database on every pull request that touches `src/ai/**`. `pnpm eval:gate` fails the job when any score falls more than 0.05 below `evals/baseline.json`; the first run establishes that baseline. Contradiction detection has no eval yet.
 - **Background verification via Trigger.dev v4** — verification doesn't block the request path; UI fetches updates as agents finish.
 
 Full architecture writeup: [`docs/decisions.md`](./docs/decisions.md). Build log: [`docs/build-log.md`](./docs/build-log.md).
@@ -70,12 +70,12 @@ Full Braintrust dashboard linked from CI runs. Eval task: [`vellum-app/evals/tas
 | Realtime | Yjs (in-memory v1; WebSocket relay deferred to v2) |
 | Backend | Next.js API routes + Trigger.dev v4 for durable workflows |
 | Database | Azure Postgres Flexible Server (B1ms) + Apache AGE 1.6.0 + pgvector 0.8.2 |
-| AI | Anthropic SDK · Claude Sonnet 4.6 + Haiku 4.5 + Voyage `voyage-3-large` + Exa `type:auto` |
+| AI | Anthropic SDK · Claude Sonnet 5 + Haiku 4.5 + Voyage `voyage-3-large` + Exa `type:auto` |
 | Evals | Braintrust + autoevals |
 | Auth + billing | Clerk org mode + Stripe (test mode; full billing v2) |
 | Observability | Sentry · Langfuse · Braintrust |
 | Email | Resend (newsletter publishing) |
-| Hosting | Vercel (app) — deploy pending v1 ship |
+| Hosting | Vercel, live at penstroke.vercel.app |
 | Typography | Newsreader serif (body) + Libre Franklin (chrome) — both free, NYT pairing |
 
 ## What's *intentionally* not in v1
@@ -122,7 +122,7 @@ Velocity: roughly 3-person-team scope shipped solo in one focused build week. Th
 - [x] **v0** — repo scaffolded · BUILD.md · case-study skeleton
 - [x] **v0.5** — toolchain + 13 service accounts + database (Azure + AGE + pgvector) + auth + agent fleet + frontend
 - [x] **v1.0 functional** — single-user multi-tenant ready, all 6 agents wired, eval-gated, public viewer, newsletter
-- [ ] **v1.0 ship** — Vercel deploy, custom domain, Sentry source maps, public scores dashboard
+- [ ] **v1.0 ship** — Vercel deploy done; still needed: a custom domain, a Clerk production instance so sign-in works, Sentry source maps, public scores dashboard
 - [ ] **v1.5** — argument map force-graph, browser extension, version history, mobile reader
 - [ ] **v2** — multi-user collab, Stripe billing, public API w/ keys + rate limits
 

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { anthropic, MODELS, callCostCents } from '../client';
+import { anthropic, MODELS, callCostCents, shouldCacheSystem } from '../client';
 import { trackAgentCall } from '@/lib/billing/track-usage';
 import { stripFences } from '../lib/strip-fences';
 
@@ -45,7 +45,15 @@ export async function suggestSynonyms({
   const resp = await anthropic.messages.create({
     model: MODELS.CHEAP,
     max_tokens: 600,
-    system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+    system: [
+      {
+        type: 'text',
+        text: SYSTEM,
+        ...(shouldCacheSystem(MODELS.CHEAP, SYSTEM)
+          ? { cache_control: { type: 'ephemeral' as const } }
+          : {}),
+      },
+    ],
     messages: [{ role: 'user', content: `Word: "${word}"\nSentence: "${sentence}"` }],
   });
 
