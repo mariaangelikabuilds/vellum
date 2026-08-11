@@ -9,7 +9,7 @@
 - **Observability:** Sentry + Langfuse + Braintrust
 - **Auth:** Clerk (with Postgres org sync via webhook in v2; on-demand in v1)
 - **Email:** Resend
-- **Domain:** penstroke.app (TBD)
+- **Domain:** penstroke.mariaangelika.com (live). penstroke.app was the original plan and is owned by someone else, so it is not usable.
 
 Live collab WebSocket relay (Cloudflare Workers + Durable Objects) is **deferred to v2**. v1 ships single-user with Yjs in-memory.
 
@@ -54,7 +54,7 @@ LANGFUSE_PUBLIC_KEY
 LANGFUSE_SECRET_KEY
 LANGFUSE_BASE_URL=https://us.cloud.langfuse.com
 SENTRY_DSN
-NEXT_PUBLIC_APP_URL=https://penstroke.app        # or vercel preview URL
+NEXT_PUBLIC_APP_URL=https://penstroke.mariaangelika.com   # or vercel preview URL
 ```
 
 Note: `NEXT_PUBLIC_WS_URL` is omitted — live collab is v2.
@@ -86,7 +86,7 @@ Deferred. v1 cutlist excludes Stripe checkout/products.
 
 ## Step 6 — Custom domain
 
-1. Vercel → Project → Settings → Domains → add `penstroke.app`
+1. Vercel → Project → Settings → Domains → add `penstroke.mariaangelika.com`, then point an A record at 76.76.21.21 in Cloudflare, DNS only
 2. Update DNS at registrar (CNAME or A record per Vercel instructions)
 3. Update `NEXT_PUBLIC_APP_URL` env var to the new domain
 
