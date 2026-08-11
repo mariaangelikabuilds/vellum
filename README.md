@@ -2,8 +2,6 @@
 
 > A graph-of-claims word processor for essayists, journalists, and researchers.
 
-[![eval](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml/badge.svg)](https://github.com/mariaangelikabuilds/vellum/actions/workflows/eval.yml)
-
 ![Penstroke architecture](docs/screenshots/architecture.svg)
 
 *Live at [penstroke.mariaangelika.com](https://penstroke.mariaangelika.com), running a Clerk production instance, so sign-up and sign-in work. Build log at [`docs/build-log.md`](./docs/build-log.md).*
