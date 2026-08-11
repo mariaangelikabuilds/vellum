@@ -6,7 +6,7 @@
 
 ![Penstroke architecture](docs/screenshots/architecture.svg)
 
-*Live at [penstroke.vercel.app](https://penstroke.vercel.app). Sign-in needs a Clerk production instance, which needs a custom domain; the marketing, architecture and build-log pages are open. Build log at [`docs/build-log.md`](./docs/build-log.md).*
+*Live at [penstroke.mariaangelika.com](https://penstroke.mariaangelika.com), running a Clerk production instance, so sign-up and sign-in work. Build log at [`docs/build-log.md`](./docs/build-log.md).*
 
 ---
 
@@ -75,7 +75,7 @@ Full Braintrust dashboard linked from CI runs. Eval task: [`vellum-app/evals/tas
 | Auth + billing | Clerk org mode + Stripe (test mode; full billing v2) |
 | Observability | Sentry · Langfuse · Braintrust |
 | Email | Resend (newsletter publishing) |
-| Hosting | Vercel, live at penstroke.vercel.app |
+| Hosting | Vercel, live at penstroke.mariaangelika.com |
 | Typography | Newsreader serif (body) + Libre Franklin (chrome) — both free, NYT pairing |
 
 ## What's *intentionally* not in v1
@@ -122,7 +122,8 @@ Velocity: roughly 3-person-team scope shipped solo in one focused build week. Th
 - [x] **v0** — repo scaffolded · BUILD.md · case-study skeleton
 - [x] **v0.5** — toolchain + 13 service accounts + database (Azure + AGE + pgvector) + auth + agent fleet + frontend
 - [x] **v1.0 functional** — single-user multi-tenant ready, all 6 agents wired, eval-gated, public viewer, newsletter
-- [ ] **v1.0 ship** — Vercel deploy done; still needed: a custom domain, a Clerk production instance so sign-in works, Sentry source maps, public scores dashboard
+- [x] **v1.0 ship** — deployed on Vercel at penstroke.mariaangelika.com with a Clerk production instance and working auth
+- [ ] **v1.1** — Sentry source maps, public scores dashboard, custom Google OAuth credentials
 - [ ] **v1.5** — argument map force-graph, browser extension, version history, mobile reader
 - [ ] **v2** — multi-user collab, Stripe billing, public API w/ keys + rate limits
 
