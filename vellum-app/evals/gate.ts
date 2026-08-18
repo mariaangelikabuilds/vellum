@@ -5,8 +5,10 @@
 //   pnpm eval:gate                 score, compare, exit 1 on a regression
 //   pnpm eval:gate --update        accept current scores as the new baseline
 //
-// The first run on a repo with no baseline.json writes one and passes, so a
-// baseline is established from a real run rather than invented by hand.
+// The first run on a machine with no baseline.json writes one and passes, so a
+// baseline is established from a real run rather than invented by hand. In CI that
+// is refused: a fresh runner is always a first run, so accepting it there would let
+// the gate pass against a baseline it wrote for itself seconds earlier.
 import { config } from 'dotenv';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -93,6 +95,18 @@ async function main(): Promise<void> {
     baseline = JSON.parse(await fs.readFile(BASELINE, 'utf8')) as Baseline;
   } catch {
     baseline = null;
+  }
+
+  // Establishing a baseline from a real run is right on a developer machine and
+  // wrong in CI, where every runner is a fresh checkout and therefore always a
+  // first run. Left as it was, this branch was taken on every CI run: a baseline
+  // was written to a disk that is thrown away, the gate returned green, and it was
+  // structurally incapable of failing. A gate that cannot fail is not a gate.
+  if (!baseline && process.env.CI && !update) {
+    console.error('no evals/baseline.json is committed, so there is nothing to gate against.');
+    console.error('run pnpm eval:gate locally and commit the baseline it writes.');
+    console.error('refusing to pass against a baseline this run invented for itself.');
+    process.exit(1);
   }
 
   if (!baseline || update) {
