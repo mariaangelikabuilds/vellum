@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-08-18T08:53:29.235Z",
+  "model": "claude-haiku-4-5-20251001",
+  "n": 30,
+  "scores": {
+    "claim_count_match": 0.9667,
+    "type_match": 0.9667,
+    "confidence_above_min": 0.8667
+  }
+}
